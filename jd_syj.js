@@ -13,12 +13,15 @@
 ============Quantumultx===============
 [task_local]
 #十元街
-10 7 * * * https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_syj.js, tag=十元街, enabled=true
+10 7 * * * https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_syj.js, tag=十元街, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_syj.png, enabled=true
+
 ================Loon==============
 [Script]
-cron "10 7 * * *" script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_syj.js,tag=十元街
+cron "10 7 * * *" script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_syj.js, tag=十元街
+
 ===============Surge=================
 十元街 = type=cron,cronexp="10 7 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_syj.js
+
 ============小火箭=========
 十元街 = type=cron,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_syj.js, cronexpr="10 7 * * *", timeout=200, enable=true
  */
@@ -93,7 +96,6 @@ function userSignIn() {
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
           if (safeGet(data)) {
-            console.log(data);
             data = JSON.parse(data);
             if (data.code === 0) {
               console.log(`今日签到成功`)
@@ -101,8 +103,8 @@ function userSignIn() {
                 let { alreadySignDays, beanTotalNum, todayPrize, eachDayPrize } = data.data;
                 message += `【第${alreadySignDays}日签到】成功，获得${todayPrize.beanAmount}京豆 🐶\n`;
                 if (alreadySignDays === 7) alreadySignDays = 0;
-                message += `【明日签到成功】可获得${eachDayPrize[alreadySignDays].beanAmount}京豆 🐶\n`;
-                message += `【签到累计获得】${beanTotalNum}京豆 🐶\n`;
+                message += `【明日签到】可获得${eachDayPrize[alreadySignDays].beanAmount}京豆 🐶\n`;
+                message += `【累计获得】${beanTotalNum}京豆 🐶\n`;
               }
             } else if (data.code === 81) {
               console.log(`今日已签到`)

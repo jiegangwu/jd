@@ -2,7 +2,7 @@
  * @Author: lxk0301 https://github.com/lxk0301 
  * @Date: 2020-11-25 18:19:21 
  * @Last Modified by: lxk0301
- * @Last Modified time: 2020-11-26 12:58:02
+ * @Last Modified time: 2020-11-27 09:58:02
  */
 /*
 东东工厂，不是京喜工厂
@@ -34,6 +34,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
+const randomCount = $.isNode() ? 20 : 5;
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 if ($.isNode()) {
@@ -48,6 +49,7 @@ let wantProduct = ``;//心仪商品名称
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const inviteCodes = [`P04z54XCjVWnYaS5u2ak7ZCdan1Bdd2GGiWvC6_uERj`, 'P04z54XCjVWnYaS5m9cZ2ariXVJwHf0bgkG7Uo'];
 !(async () => {
+  await requireConfig();
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
@@ -72,6 +74,7 @@ const inviteCodes = [`P04z54XCjVWnYaS5u2ak7ZCdan1Bdd2GGiWvC6_uERj`, 'P04z54XCjVW
         }
         continue
       }
+      await shareCodesFormat();
       await jdFactory()
     }
   }
@@ -84,7 +87,7 @@ const inviteCodes = [`P04z54XCjVWnYaS5u2ak7ZCdan1Bdd2GGiWvC6_uERj`, 'P04z54XCjVW
     })
 async function jdFactory() {
   await jdfactory_getHomeData();
-  await helpFriends(inviteCodes);
+  await helpFriends();
   // $.newUser !==1 && $.haveProduct === 2，老用户但未选购商品
   // $.newUser === 1新用户
   if ($.newUser === 1) return
@@ -149,10 +152,8 @@ async function algorithm() {
                   }
                   // console.log(`\n您心仪商品${name}\n当前数量为：${couponCount}\n兑换所需电量为：${totalScore}\n您当前总电量为：${remainScore * 1 + useScore * 1}\n`);
                   if (wantProductSkuId && ((remainScore * 1 + useScore * 1) >= (totalScore * 1 + 100000))) {
-                  // if (wantProductSkuId && ((remainScore * 1 + useScore * 1) >= (totalScore + 100000))) {
                     console.log(`\n提供的心仪商品${name}目前数量：${couponCount}，且当前总电量为：${remainScore * 1 + useScore * 1}，【满足】兑换此商品所需总电量：${totalScore + 100000}`);
                     console.log(`请去活动页面更换成心仪商品并手动投入电量兑换\n`);
-                    // $.msg($.name, '', `京东账号${$.index}${$.nickName}\n您提供的心仪商品${name}目前数量：${couponCount}\n当前总电量为：${remainScore * 1 + useScore * 1}\n【满足】兑换此商品所需总电量：${totalScore}\n请去活动页面更换成心仪商品并手动投入电量兑换`);
                     $.msg($.name, '', `京东账号${$.index}${$.nickName}\n您提供的心仪商品${name}目前数量：${couponCount}\n当前总电量为：${remainScore * 1 + useScore * 1}\n【满足】兑换此商品所需总电量：${totalScore}\n请点击弹窗直达活动页面\n更换成心仪商品并手动投入电量兑换`, {'open-url': 'openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/2uSsV2wHEkySvompfjB43nuKkcHp/index.html%22%20%7D'});
                     await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `您提供的心仪商品${name}目前数量：${couponCount}\n当前总电量为：${remainScore * 1 + useScore * 1}\n【满足】兑换此商品所需总电量：${totalScore}\n请去活动页面更换成心仪商品并手动投入电量兑换`);
                   } else {
@@ -161,12 +162,7 @@ async function algorithm() {
                 } else {
                   console.log(`BoxJs或环境变量暂未提供心仪商品\n如需兑换心仪商品，请提供心仪商品名称，否则满足条件后会为您兑换当前所选商品：${name}\n`);
                   if (((remainScore * 1 + useScore * 1) >= totalScore * 1 + 100000) && (couponCount * 1 > 0)) {
-                  // if (((remainScore * 1 + useScore * 1) >= totalScore * 1) && (couponCount * 1 > 0)) {
-                  //   console.log(`\n所选商品${name}目前数量：${couponCount}，且当前总电量为：${remainScore * 1 + useScore * 1}，【满足】兑换此商品所需总电量：${totalScore}`);
-                  //   console.log(`BoxJs或环境变量暂未提供心仪商品，下面为您目前选的${name} 投入电量\n`);
-                  //   await jdfactory_addEnergy();
-                  //   $.msg($.name, '', `京东账号${$.index}${$.nickName}\n您提供的心仪商品${name}目前数量：${couponCount}\n当前总电量为：${remainScore * 1 + useScore * 1}\n【满足】兑换此商品所需总电量：${totalScore}\n已为您投入电量，请去活动页面查看`);
-                  //   await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `所选商品${name}目前数量：${couponCount}\n当前总电量为：${remainScore * 1 + useScore * 1}\n【满足】兑换此商品所需总电量：${totalScore}\n已为您投入电量，请去活动页面查看`);
+                    console.log(`\n所选商品${name}目前数量：${couponCount}，且当前总电量为：${remainScore * 1 + useScore * 1}，【满足】兑换此商品所需总电量：${totalScore}`);
                     console.log(`BoxJs或环境变量暂未提供心仪商品，下面为您目前选的${name} 发送提示通知\n`);
                     // await jdfactory_addEnergy();
                     $.msg($.name, '', `京东账号${$.index}${$.nickName}\n您所选商品${name}目前数量：${couponCount}\n当前总电量为：${remainScore * 1 + useScore * 1}\n【满足】兑换此商品所需总电量：${totalScore}\n请点击弹窗直达活动页面查看`, {'open-url': 'openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/2uSsV2wHEkySvompfjB43nuKkcHp/index.html%22%20%7D'});
@@ -194,8 +190,6 @@ async function algorithm() {
                   }
                   if (wantProductSkuId && (($.batteryValue * 1) >= (totalScore))) {
                     console.log(`\n提供的心仪商品${name}目前数量：${couponCount}，且当前总电量为：${$.batteryValue * 1}，【满足】兑换此商品所需总电量：${totalScore}`);
-                    // console.log(`请去活动页面更换成心仪商品并手动投入电量兑换\n`);
-                    // $.msg($.name, '', `京东账号${$.index}${$.nickName}\n您提供的心仪商品${name}目前数量：${couponCount}\n当前总电量为：${$.batteryValue * 1}\n【满足】兑换此商品所需总电量：${totalScore}\n请去活动页面选择此心仪商品并手动投入电量兑换`);
                     console.log(`请去活动页面选择心仪商品并手动投入电量兑换\n`);
                     $.msg($.name, '', `京东账号${$.index}${$.nickName}\n您提供的心仪商品${name}目前数量：${couponCount}\n当前总电量为：${$.batteryValue * 1}\n【满足】兑换此商品所需总电量：${totalScore}\n请点击弹窗直达活动页面\n选择此心仪商品并手动投入电量兑换`, {'open-url': 'openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/2uSsV2wHEkySvompfjB43nuKkcHp/index.html%22%20%7D'});
                     await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `您提供的心仪商品${name}目前数量：${couponCount}\n当前总电量为：${$.batteryValue * 1}\n【满足】兑换此商品所需总电量：${totalScore}\n请去活动页面选择此心仪商品并手动投入电量兑换`);
@@ -219,10 +213,14 @@ async function algorithm() {
     })
   })
 }
-async function helpFriends(inviteCodes) {
-  for (let code of inviteCodes) {
+async function helpFriends() {
+  for (let code of $.newShareCodes) {
     if (!code) continue
-    await jdfactory_collectScore(code);
+    const helpRes = await jdfactory_collectScore(code);
+    if (helpRes.code === 0 && helpRes.data.bizCode === -7) {
+      console.log(`助力机会已耗尽，跳出`);
+      break
+    }
   }
 }
 async function doTask() {
@@ -314,7 +312,7 @@ async function doTask() {
       //从数码电器首页进入
       if (item.status === 1) {
         console.log(`准备做此任务：${item.taskName}`);
-        // await jdfactory_collectScore(item.simpleRecordInfoVo.taskToken);
+        await jdfactory_collectScore(item.simpleRecordInfoVo.taskToken);
       } else {
         console.log(`${item.taskName}已完成`);
       }
@@ -344,7 +342,7 @@ function jdfactory_collectScore(taskToken) {
       } catch (e) {
         $.logErr(e, resp)
       } finally {
-        resolve();
+        resolve(data);
       }
     })
   })
@@ -501,6 +499,7 @@ function jdfactory_getHomeData() {
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
           if (safeGet(data)) {
+            console.log(data);
             data = JSON.parse(data);
             if (data.data.bizCode === 0) {
               $.haveProduct = data.data.result.haveProduct;
@@ -538,6 +537,69 @@ function jdfactory_getHomeData() {
         resolve();
       }
     })
+  })
+}
+function readShareCode() {
+  console.log(`开始`)
+  return new Promise(async resolve => {
+    $.get({url: `http://api.turinglabs.net/api/v1/jd/ddfactory/read/${randomCount}/`}, (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          if (data) {
+            console.log(`随机取个${randomCount}码放到您固定的互助码后面`)
+            data = JSON.parse(data);
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve(data);
+      }
+    })
+    // await $.wait(2000);
+    // resolve()
+  })
+}
+//格式化助力码
+function shareCodesFormat() {
+  return new Promise(async resolve => {
+    // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
+    $.newShareCodes = [];
+    if ($.shareCodesArr[$.index - 1]) {
+      $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
+    } else {
+      console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
+      const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
+      $.newShareCodes = inviteCodes[tempIndex].split('@');
+    }
+    const readShareCodeRes = await readShareCode();
+    if (readShareCodeRes && readShareCodeRes.code === 200) {
+      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
+    }
+    console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
+    resolve();
+  })
+}
+function requireConfig() {
+  return new Promise(resolve => {
+    console.log(`开始获取${$.name}配置文件\n`);
+    //Node.js用户请在jdCookie.js处填写京东ck;
+    const shareCodes = $.isNode() ? require('./jdFactoryShareCodes.js') : '';
+    console.log(`共${cookiesArr.length}个京东账号\n`);
+    $.shareCodesArr = [];
+    if ($.isNode()) {
+      Object.keys(shareCodes).forEach((item) => {
+        if (shareCodes[item]) {
+          $.shareCodesArr.push(shareCodes[item])
+        }
+      })
+    }
+    // console.log(`\n种豆得豆助力码::${JSON.stringify($.shareCodesArr)}`);
+    console.log(`您提供了${$.shareCodesArr.length}个账号的${$.name}助力码\n`);
+    resolve()
   })
 }
 function taskPostUrl(function_id, body = {}, function_id2) {
