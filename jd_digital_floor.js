@@ -90,6 +90,7 @@ async function helpFriends() {
     await $.wait(500)
     if (res===5) {
       // 助力次数已用完
+      console.log(`助力机会已耗尽，跳出`);
       break
     }
   }
