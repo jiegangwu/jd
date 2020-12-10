@@ -134,7 +134,7 @@ if ($.isNode()) {
   cookiesArr.push(...[$.getdata('CookieJD'), $.getdata('CookieJD2')]);
 }
 const JD_API_HOST = 'https://starsingle.m.jd.com/guardianstar/';
-const inviteCodes = ['65561ad5-af72-4d1c-a5be-37b3de372b67']
+const inviteCodes = ['51eba2fb-0495-447e-974e-f0110e95ae5f@6b94bcef-3d32-45cb-a093-d75118b97efd@c44646bb-b9cf-4227-96ea-a495b9baa61d@8efc86e2-0e86-4f07-a888-9526151e5a0f@0c75b72a-5c3a-4cdf-a5df-7e6827ca930e']
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -174,7 +174,7 @@ const inviteCodes = ['65561ad5-af72-4d1c-a5be-37b3de372b67']
     })
 async function jdHealth() {
   $.bean = 0
- // await helpFriends();
+  await helpFriends();
   await taskList();
   message += `已做完任务，共计获得京豆 ${$.bean}\n`
   await showMsg();
