@@ -135,7 +135,7 @@ async function jdHealth() {
     if ($.task.times===$.task.maxTimes)
       await reward()
     await showMsg();
-    break
+      break
   }
 }
 
