@@ -106,7 +106,7 @@ async function smallHome() {
   await lottery();
   await doAllTask();
   await queryByUserId();
-  await queryFurnituresCenterList();
+  //await queryFurnituresCenterList();
   await showMsg();
 }
 function showMsg() {
