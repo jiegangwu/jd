@@ -119,9 +119,8 @@ async function jdHealth() {
   console.log(`${$.name}浏览次数：${$.task.times}/${$.task.maxTimes}`)
   if($.task) {
     let i = 0, j = $.task.times
-    while(j < $.task.maxTimes) {
+    if(j < $.task.maxTimes) {
       if (!acceptBody[i]) break
-      await getTaskList()
       let res = await acceptTask(acceptBody[++i])
       if (res['success']) {
         await $.wait(10000)
@@ -129,6 +128,8 @@ async function jdHealth() {
         j++
       }
       await $.wait(500);
+      await jdHealth();
+      break;
     }
     await getTaskList()
     if ($.task.times===$.task.maxTimes)
