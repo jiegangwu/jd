@@ -128,8 +128,8 @@ async function jdHealth() {
         j++
       }
       await $.wait(500);
-      await jdHealth();
-      break
+      //await jdHealth();
+      //break
     }
     await getTaskList()
     if ($.task.times===$.task.maxTimes){
