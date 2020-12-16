@@ -40,7 +40,7 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/api';
 !(async () => {
-  $.newShareCodes = ['be4c9387ee48f65f9ad62be6bd0c16c0'];
+  $.newShareCodes = ['be4c9387ee48f65f9ad62be6bd0c16c0','5e78098bd5dde69ef7174608a0c4034c'];
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
