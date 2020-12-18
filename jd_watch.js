@@ -213,10 +213,16 @@ async function jdHealth() {
         j++
       }
       await $.wait(500);
+      //await jdHealth();
+      //break
     }
     await getTaskList()
-    if ($.task.times===$.task.maxTimes)
-      await reward()
+    if ($.task.times===$.task.maxTimes){
+       await reward()
+    }else{
+       await jdHealth()
+    }
+    await showMsg();
   }
 }
 
@@ -230,7 +236,7 @@ function showMsg() {
 function getTaskList() {
   let body = "body=%7B%22bizType%22%3A1%2C%22referPageId%22%3A%22discRecommend%22%7D&build=167454&client=apple&clientVersion=9.3.0&d_brand=apple&d_model=iPhone10%2C2&eid=eidIF3CF0112RTIyQTVGQTEtRDVCQy00Qg%3D%3D6HAJa9%2B/4Vedgo62xKQRoAb47%2Bpyu1EQs/6971aUvk0BQAsZLyQAYeid%2BPgbJ9BQoY1RFtkLCLP5OMqU&isBackground=N&joycious=200&lang=zh_CN&networkType=wifi&networklibtype=JDNetworkBaseAF&openudid=53f4d9c70c1c81f1c8769d2fe2fef0190a3f60d2&osVersion=14.2&partner=apple&rfs=0000&scope=01&screen=1242%2A2208&sign=7ac41799deb4b174516255f911adb612&st=1607942822112&sv=100&uts=0f31TVRjBStSN/KN45aFsqdm3cWx37OzS1DDtk92Jjb1GFDLcR3WqIplv0XA1h/hn4ycbABQbxmY2Z6OJ41XlUNqODg0xhlFxdy9vzwBobHzhtVmCcORklu9W1cB6YcW0kYJNzSsy5ypxaQvGUf1oq/yMw/Hbo5lD3f4srHsrWzrsnKQ4K7HYtCFiZ5kn/AC%2B/tEmJRu9yM5j2nCMqdvmg%3D%3D&uuid=hjudwgohxzVu96krv/T6Hg%3D%3D"
   return new Promise(resolve => {
-    $.post(taskPostUrl("discTaskList", body),  (err, resp, data) => {
+    $.post(taskPostUrl("disctTaskList", body),  (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
