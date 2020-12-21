@@ -205,6 +205,7 @@ function getUserTuanInfo() {
                 "assistedPinEncrypted": data.data.encPin,
                 "channel": "FISSION_BEAN"
               }
+              console.log("Tuandata:" + JSON.stringify($.tuan))
             $.tuanActId = data.data.id
           }
         }
