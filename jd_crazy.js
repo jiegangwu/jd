@@ -8,7 +8,7 @@
 
 const $ = new Env('疯狂的joy');
 let cookiesArr = [], isBox = false, notify;
-let message = '', subTitle = '', option = {};
+let message = '', subTitle = '', option = {} ,_shop = [] , ctx = {};
 let jdNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 const JD_API_HOST = 'https://api.m.jd.com';
 let randomCount = $.isNode() ? 20 : 5;
@@ -53,8 +53,6 @@ const PRODUCE_WAIT = process.env.PRODUCE_WAIT ? process.env.PRODUCE_WAIT : 1000 
   })
 
 class CrazyJoy {
-  _shop = []
-  ctx = {}
 
   constructor(index, cookie, nickName) {
     this._index = index
@@ -262,14 +260,14 @@ class CrazyJoy {
 // 购买joy
   trade(joyLevel) {
     // 默认只能购买最高等级-1 级的joy
-    const allowMaxLevel = this._shop[this._shop.length - 2]
+    const allowMaxLevel = _shop[_shop.length - 2]
     let cost = 0
     if (allowMaxLevel.joyId < joyLevel) {
       joyLevel = allowMaxLevel.joyId
       cost = allowMaxLevel.coins
     } else {
-      for (let i = 0; i < this._shop; i++) {
-        let it = this._shop[i]
+      for (let i = 0; i < _shop; i++) {
+        let it = _shop[i]
         if (it.joyId == joyLevel) {
           cost = it.coins
           break
@@ -372,7 +370,7 @@ class CrazyJoy {
           } else {
             data = JSON.parse(data);
             if (data.success) {
-              this._shop = data.data.shop
+              _shop = data.data.shop
             }
           }
         } catch (e) {
