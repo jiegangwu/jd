@@ -149,8 +149,8 @@ async function doChannelsListTask(taskId, taskType) {
   }
 }
 async function helpFriends() {
-  await updateInviteCode();
-  if (!$.inviteCodes) await updateInviteCodeCDN();
+ // await updateInviteCode();
+ // if (!$.inviteCodes) await updateInviteCodeCDN();
   if (!$.inviteCodes) await updateInviteCodeCDN('https://gitee.com/jk9527/updateTeam/raw/my_master/jd_updateSmallHomeInviteCode.json');
   for (let item of $.inviteCodes.inviteCode) {
     if (!item) continue
