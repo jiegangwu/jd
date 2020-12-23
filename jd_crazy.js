@@ -75,9 +75,9 @@ class CrazyJoy {
     await this.joyList()
     // 刷新商店
     await this.shop()
-    console.log(`joy列表 ${this.ctx.joyIds}`)
-    for (let i = 0; i < this.ctx.joyIds.length; i++) {
-      let joy = this.ctx.joyIds[i]
+    console.log(`joy列表 ${ctx.joyIds}`)
+    for (let i = 0; i < ctx.joyIds.length; i++) {
+      let joy = ctx.joyIds[i]
       if (joy === 0) {
         await this.trade(BUY_JOY_LEVEL)
         await $.wait(1000)
@@ -85,7 +85,7 @@ class CrazyJoy {
     }
     await this.joyList()
     // 开始合并
-    let maybe = calc(this.ctx.joyIds)
+    let maybe = calc(ctx.joyIds)
     for (const it of Object.keys(maybe)) {
       let v = maybe[it]
       if (it > 0 && it < 34) {
@@ -117,11 +117,11 @@ class CrazyJoy {
             data = JSON.parse(data);
             // console.log('ddd----ddd', data)
             if (data.success) {
-              this.ctx = data.data
-              console.log(`邀请码 ${this.ctx.userInviteCode}`)
-              console.log(`当前joy币 ${this.ctx.totalCoinAmount}`)
-              console.log(`离线收益 ${this.ctx.offlineCoinAmount}`)
-              console.log(`最高级别的joy ${this.ctx.userTopLevelJoyId}级`)
+              ctx = data.data
+              console.log(`邀请码 ${ctx.userInviteCode}`)
+              console.log(`当前joy币 ${ctx.totalCoinAmount}`)
+              console.log(`离线收益 ${ctx.offlineCoinAmount}`)
+              console.log(`最高级别的joy ${ctx.userTopLevelJoyId}级`)
             }
           }
         } catch (e) {
@@ -150,7 +150,7 @@ class CrazyJoy {
             data = JSON.parse(data);
             // console.log('ddd----ddd', data)
             if (data.success && data.data.joyIds) {
-              this.ctx = data.data
+              ctx = data.data
             }
           }
         } catch (e) {
@@ -274,8 +274,8 @@ class CrazyJoy {
         }
       }
     }
-    if (this.ctx.totalCoinAmount < cost) {
-      console.log(`买不起等级为${joyLevel}的joy，需要${cost}，当前${this.ctx.totalCoinAmount}，跳过`)
+    if (ctx.totalCoinAmount < cost) {
+      console.log(`买不起等级为${joyLevel}的joy，需要${cost}，当前${ctx.totalCoinAmount}，跳过`)
       return
     }
     console.log(`购买${joyLevel} ${this._max_level} ${this._max_level < joyLevel}`)
@@ -292,7 +292,7 @@ class CrazyJoy {
             if (data.success) {
               console.log(`购买${joyLevel}级joy成功， 花费${data.data.coins}，下次购买费用 --> ${data.data.nextBuyPrice}， 剩余joy币 --> ${data.data.totalCoins}`)
               //更新当前剩余金币数量
-              this.ctx.totalCoinAmount = data.data.totalCoins
+              ctx.totalCoinAmount = data.data.totalCoins
             } else {
               console.log(data.message)
             }
