@@ -607,9 +607,6 @@ function requireConfig() {
         } else if (process.env.JDJOY_SHARECODES.indexOf('&') > -1) {
           console.log(`您的互助码选择的是用&隔开\n`)
           shareCodes = process.env.JDJOY_SHARECODES.split('&');
-        } else if (process.env.JDJOY_SHARECODES.indexOf('@') > -1) {
-          console.log(`您的互助码选择的是用@隔开\n`)
-          shareCodes = process.env.JDJOY_SHARECODES.split('@');
         } else {
           shareCodes = process.env.JDJOY_SHARECODES.split();
         }
