@@ -167,7 +167,7 @@ if ($.isNode()) {
   }
   let count = 0
   while (true) {
-    if (count === 100) {
+    if (count === 50) {
        console.log(`============结束${count}次挂机=============`);
        break;
       }
