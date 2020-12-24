@@ -37,6 +37,7 @@ if ($.isNode()) {
   cookiesArr.reverse();
   cookiesArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);
   cookiesArr.reverse();
+  cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
 }
 const JD_API_HOST = 'https://api.m.jd.com/api';
  $.newShareCodes = ['be4c9387ee48f65f9ad62be6bd0c16c0','5e78098bd5dde69ef7174608a0c4034c','7b5326ca355fd6220489ae711d9f9e67','b9e5537226a47fb3e0e38186afcba376'];
@@ -60,8 +61,6 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
 
         if ($.isNode()) {
           await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-        } else {
-          $.setdata('', `CookieJD${i ? i + 1 : "" }`);//cookie失效，故清空cookie。$.setdata('', `CookieJD${i ? i + 1 : "" }`);//cookie失效，故清空cookie。
         }
         continue
       }

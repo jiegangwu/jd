@@ -137,6 +137,7 @@ if ($.isNode()) {
   cookiesArr.reverse();
   cookiesArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);
   cookiesArr.reverse();
+  cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
 }
 const JD_API_HOST = 'https://starsingle.m.jd.com/guardianstar/';
 const inviteCodes = ['51eba2fb-0495-447e-974e-f0110e95ae5f@6b94bcef-3d32-45cb-a093-d75118b97efd@c44646bb-b9cf-4227-96ea-a495b9baa61d@8efc86e2-0e86-4f07-a888-9526151e5a0f@0c75b72a-5c3a-4cdf-a5df-7e6827ca930e']
@@ -161,8 +162,6 @@ const inviteCodes = ['51eba2fb-0495-447e-974e-f0110e95ae5f@6b94bcef-3d32-45cb-a0
 
         if ($.isNode()) {
           await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-        } else {
-          $.setdata('', `CookieJD${i ? i + 1 : "" }`);//cookie失效，故清空cookie。$.setdata('', `CookieJD${i ? i + 1 : "" }`);//cookie失效，故清空cookie。
         }
         continue
       }
