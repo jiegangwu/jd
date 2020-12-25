@@ -573,7 +573,7 @@ function taskUrl(functionId, body = '') {
     }
   }
 }
-function readShareCode() {
+/*function readShareCode() {
   console.log(`开始`)
   return new Promise(async resolve => {
     $.get({url: `https://code.chiang.fun/api/v1/jd/jdcrazyjoy/read/${randomCount}/`}, (err, resp, data) => {
@@ -596,7 +596,7 @@ function readShareCode() {
     await $.wait(10000);
     resolve()
   })
-}
+}*/
 //格式化助力码
 function shareCodesFormat() {
   return new Promise(async resolve => {
