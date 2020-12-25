@@ -210,7 +210,7 @@ async function jdJxStory() {
       break
     }
     if ($.joyIds[i] === 0) {
-      // await buyJoy($.buyJoyLevel)
+      await buyJoy($.buyJoyLevel)
       await $.wait(1000)
     }
   }
@@ -280,7 +280,7 @@ function getJoyShop() {
           data = JSON.parse(data);
           if (data.success && data.data && data.data.shop) {
             const shop = data.data.shop.filter(vo => vo.status === 1) || []
-            // $.buyJoyLevel = shop.length ? shop[shop.length - 1]['joyId'] : 1
+             $.buyJoyLevel = shop.length ? shop[shop.length - 1]['joyId'] : 1
             $.cost = shop.length ? shop[shop.length - 1]['coins'] : Infinity
           }
         }
