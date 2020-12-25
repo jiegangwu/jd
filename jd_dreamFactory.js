@@ -1014,17 +1014,17 @@ function CreateTuan() {
 }
 async function joinLeaderTuan() {
   await updateTuanIds();
-  if (!$.tuanIdS) await updateTuanIdsCDN('https://gitee.com/lxk0301/updateTeam/raw/master/jd_updateFactoryTuanId.json');
-  if (!$.tuanIdS) await updateTuanIdsCDN('https://cdn.jsdelivr.net/gh/lxk0301/updateTeam@master/jd_updateFactoryTuanId.json');
+ // if (!$.tuanIdS) await updateTuanIdsCDN('https://gitee.com/lxk0301/updateTeam/raw/master/jd_updateFactoryTuanId.json');
+  if (!$.tuanIdS) await updateTuanIdsCDN('https://gitee.com/jk9527/updateTeam/raw/my_master/jd_updateFactoryTuanId.json');
   for (let tuanId of $.tuanIdS.tuanIds) {
     if (!tuanId) continue
     await JoinTuan(tuanId);
   }
-  if (!$.tuanIdS) await updateTuanIdsCDN('https://gitee.com/shylocks/updateTeam/raw/main/jd_updateFactoryTuanId.json');
-  for (let tuanId of $.tuanIdS.tuanIds) {
-    if (!tuanId) continue
-    await JoinTuan(tuanId);
-  }
+//  if (!$.tuanIdS) await updateTuanIdsCDN('https://gitee.com/shylocks/updateTeam/raw/main/jd_updateFactoryTuanId.json');
+//  for (let tuanId of $.tuanIdS.tuanIds) {
+//    if (!tuanId) continue
+//    await JoinTuan(tuanId);
+//  }
 }
 function JoinTuan(tuanId) {
   return new Promise((resolve) => {
@@ -1324,10 +1324,10 @@ function shareCodesFormat() {
       const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
       $.newShareCodes = inviteCodes[tempIndex].split('@');
     }
-    const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
-    }
+   // const readShareCodeRes = await readShareCode();
+   // if (readShareCodeRes && readShareCodeRes.code === 200) {
+   //   $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
+   // }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
