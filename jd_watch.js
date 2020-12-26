@@ -212,10 +212,16 @@ async function jdHealth() {
         j++
       }
       await $.wait(500);
+      //await jdHealth();
+      //break
     }
     await getTaskList()
-    if ($.task.times===$.task.maxTimes)
-      await reward()
+    if ($.task.times===$.task.maxTimes){
+       await reward()
+    }else{
+       await jdHealth()
+    }
+    await showMsg();
   }
 }
 
