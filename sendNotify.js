@@ -136,12 +136,12 @@ async function sendNotify(text, desp, params = {}) {
   await pushPlusNotify(text, desp);//pushplus(推送加)
   //由于上述两种微信通知需点击进去才能查看到详情，故text(标题内容)携带了账号序号以及昵称信息，方便不点击也可知道是哪个京东哪个活动
   text = text.match(/.*?(?=\s?-)/g) ? text.match(/.*?(?=\s?-)/g)[0] : text;
-  await BarkNotify(text, desp, params);//iOS Bark APP
-  await tgBotNotify(text, desp);//telegram 机器人
-  await ddBotNotify(text, desp);//钉钉机器人
-  await qywxBotNotify(text, desp); //企业微信机器人
-  await qywxamNotify(text, desp); //企业微信应用消息推送
-  await iGotNotify(text, desp, params);//iGot
+//  await BarkNotify(text, desp, params);//iOS Bark APP
+//  await tgBotNotify(text, desp);//telegram 机器人
+//  await ddBotNotify(text, desp);//钉钉机器人
+//  await qywxBotNotify(text, desp); //企业微信机器人
+//  await qywxamNotify(text, desp); //企业微信应用消息推送
+//  await iGotNotify(text, desp, params);//iGot
   await CoolPush(text, desp);//QQ酷推
 }
 
