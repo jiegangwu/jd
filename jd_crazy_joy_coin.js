@@ -167,6 +167,10 @@ if ($.isNode()) {
   }
   let count = 0
   while (true) {
+    if (count === 150) {
+       console.log(`============结束${count}次挂机=============`);
+       break;
+      }
     count++
     console.log(`============开始第${count}次挂机=============`)
     for (let i = 0; i < cookiesArr.length; i++) {
