@@ -28,7 +28,7 @@
 
 const $ = new Env('京喜农场');
 const JD_API_HOST = 'https://wq.jd.com/';
-const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+const jdCookieNode = $.isNode() ? require('../jdCookie.js') : '';
 $.tokens = [$.getdata('jxnc_token1') || '{}', $.getdata('jxnc_token2') || '{}'];
 $.showLog = $.getdata('nc_showLog') ? $.getdata('nc_showLog') === 'true' : false;
 $.openUrl = `openjd://virtual?params=${encodeURIComponent(
