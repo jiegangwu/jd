@@ -119,7 +119,7 @@ function requireConfig() {
 
         if ($.isNode()) {
             Object.keys(jdTokenNode).forEach((item) => {
-                tokenArr.push(JSON.stringify(jdTokenNode[item]))
+                tokenArr.push(JSON.parse(jdTokenNode[item]))
                 $.log(`本地设置京东账号TOKEN${JSON.stringify(JSON.parse(jdTokenNode[item]))}`)
             })
         } else {
