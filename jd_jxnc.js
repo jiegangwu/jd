@@ -119,7 +119,7 @@ function requireConfig() {
 
         if ($.isNode()) {
             Object.keys(jdTokenNode).forEach((item) => {
-                tokenArr.push(tokenArr[item] ? JSON.parse(jdTokenNode[item]) : tokenNull)
+                tokenArr.push(tokenArr[item] ? jdTokenNode[item] : tokenNull)
             })
         } else {
             tokenArr.push(...[$.getdata('jxnc_token1') || tokenNull, $.getdata('jxnc_token2') || tokenNull]);
