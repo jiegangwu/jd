@@ -119,7 +119,7 @@ function requireConfig() {
 
         if ($.isNode()) {
             Object.keys(jdTokenNode).forEach((item) => {
-                tokenArr.push(tokenArr[item] ? JSON.parse(JXNCTOKEN[item]) : tokenNull)
+                tokenArr.push(tokenArr[item] ? JSON.parse(jdTokenNode[item]) : tokenNull)
             })
         } else {
             tokenArr.push(...[$.getdata('jxnc_token1') || tokenNull, $.getdata('jxnc_token2') || tokenNull]);
@@ -127,8 +127,8 @@ function requireConfig() {
 
         if ($.isNode()) {
             Object.keys(jdJxncShareCodeNode).forEach((item) => {
-                if (JxncShareCodes[item]) {
-                    jxncShareCodeArr.push(JxncShareCodes[item])
+                if (jdJxncShareCodeNode[item]) {
+                    jxncShareCodeArr.push(jdJxncShareCodeNode[item])
                 }
             })
         }
