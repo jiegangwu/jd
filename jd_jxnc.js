@@ -120,6 +120,7 @@ function requireConfig() {
         if ($.isNode()) {
             Object.keys(jdTokenNode).forEach((item) => {
                 tokenArr.push(tokenArr[item] ? JSON.parse(jdTokenNode[item]) : tokenNull)
+                $.log(`本地提供京东账号TOKEN${JSON.parse(jdTokenNode[item])}`)
             })
         } else {
             tokenArr.push(...[$.getdata('jxnc_token1') || tokenNull, $.getdata('jxnc_token2') || tokenNull]);
@@ -187,8 +188,10 @@ function tokenFormat() {
     return new Promise(async resolve => {
         if (tokenArr[$.index - 1] && tokenArr[$.index - 1].farm_jstoken) {
             currentToken = tokenArr[$.index - 1];
+            $.log(`1当前京东账号TOKEN${JSON.stringify(currentToken)}`)
         } else {
             currentToken = tokenNull;
+            $.log(`2当前京东账号TOKEN${JSON.stringify(currentToken)}`)
         }
         resolve();
     })
