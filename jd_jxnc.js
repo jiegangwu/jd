@@ -36,7 +36,7 @@ let currentCookie = ''; // 当前用户 cookie
 let tokenNull = {'farm_jstoken': '', 'phoneid': '', 'timestamp': ''}; // 内置一份空的 token
 let tokenArr = []; // 用户 token 数组
 let currentToken = {}; // 当前用户 token
-const shareCode = '22bd6fbbabbaa770a45ab2607e7a1e8a@197c6094e965fdf3d33621b47719e0b1'; // 内置助力码
+const shareCode = '4c34c49e2c37f15da8fba53026e0bc0a@c69eead4e7da881fb46aede0188e30f3@278d3aa9e52ee4444d5979c35a8e9c75'; // 内置助力码
 let jxncShareCodeArr = []; // 用户 助力码 数组
 let currentShareCode = []; // 当前用户 要助力的助力码
 const openUrl = `openjd://virtual?params=${encodeURIComponent('{ "category": "jump", "des": "m", "url": "https://wqsh.jd.com/sns/201912/12/jxnc/detail.html?ptag=7155.9.32&smp=b47f4790d7b2a024e75279f55f6249b9&active=jdnc_1_chelizi1205_2"}',)}`; // 打开京喜农场
@@ -119,7 +119,7 @@ function requireConfig() {
 
         if ($.isNode()) {
             Object.keys(jdTokenNode).forEach((item) => {
-                tokenArr.push(tokenArr[item] ? JSON.parse(jxncShareCodeArr[item]) : tokenNull)
+                tokenArr.push(tokenArr[item] ? JSON.parse(JXNCTOKEN[item]) : tokenNull)
             })
         } else {
             tokenArr.push(...[$.getdata('jxnc_token1') || tokenNull, $.getdata('jxnc_token2') || tokenNull]);
@@ -127,8 +127,8 @@ function requireConfig() {
 
         if ($.isNode()) {
             Object.keys(jdJxncShareCodeNode).forEach((item) => {
-                if (jxncShareCodeArr[item]) {
-                    jxncShareCodeArr.push(jxncShareCodeArr[item])
+                if (JxncShareCodes[item]) {
+                    jxncShareCodeArr.push(JxncShareCodes[item])
                 }
             })
         }
