@@ -167,6 +167,10 @@ if ($.isNode()) {
   }
   let count = 0
   while (true) {
+    if (count === 150) {
+       console.log(`============结束${count}次挂机=============`);
+       break;
+      }
     count++
     console.log(`============开始第${count}次挂机=============`)
     for (let i = 0; i < cookiesArr.length; i++) {
@@ -325,6 +329,7 @@ function getJoyShop() {
             if ($.isNode() && process.env.BUY_JOY_LEVEL) {
               $.log(`当前可购买的最高JOY等级为${$.buyJoyLevel}级\n`)
               $.buyJoyLevel = (process.env.BUY_JOY_LEVEL * 1) > $.buyJoyLevel ? $.buyJoyLevel : process.env.BUY_JOY_LEVEL * 1;
+              $.log(`去购买的JOY等级为${$.buyJoyLevel}级\n`)
               $.cost = shop[$.buyJoyLevel - 1]['coins']
             } else {
               $.cost = shop.length ? shop[shop.length - 1]['coins'] : Infinity
