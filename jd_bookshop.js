@@ -26,10 +26,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let cookiesArr = [], cookie = '', message;
 const ACT_ID = 'dz2010100034444201', shareUuid = '28a699ac78d74aa3b31f7103597f8927'
 
-let inviteCodes = [
-  '28a699ac78d74aa3b31f7103597f8927@2f14ee9c92954cf79829320dd482bf49@fdf827db272543d88dbb51a505c2e869',
-  '28a699ac78d74aa3b31f7103597f8927@2f14ee9c92954cf79829320dd482bf49@fdf827db272543d88dbb51a505c2e869'
-]
+let inviteCodes = []
 
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -687,6 +684,15 @@ function requireConfig() {
     console.log(`开始获取${$.name}配置文件\n`);
     //Node.js用户请在jdCookie.js处填写京东ck;
     const shareCodes = []
+    if ($.isNode()) {
+      if (process.env.JD_BOOKCODES) {
+        if (process.env.JD_BOOKCODES.indexOf('\n') > -1) {
+          shareCodes = process.env.JD_BOOKCODES.split('\n');
+        } else {
+          shareCodes = process.env.JD_BOOKCODES.split('&');
+        }
+      }
+    }
     console.log(`共${cookiesArr.length}个京东账号\n`);
     $.shareCodesArr = [];
     if ($.isNode()) {
