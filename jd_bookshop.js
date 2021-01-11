@@ -671,10 +671,10 @@ function shareCodesFormat() {
      // const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
     //  $.newShareCodes = inviteCodes[tempIndex].split('@');
     }
-    const readShareCodeRes = null //await readShareCode();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
-    }
+   // const readShareCodeRes = null //await readShareCode();
+   // if (readShareCodeRes && readShareCodeRes.code === 200) {
+   //   $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
+  //  }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
@@ -683,7 +683,7 @@ function requireConfig() {
   return new Promise(resolve => {
     console.log(`开始获取${$.name}配置文件\n`);
     //Node.js用户请在jdCookie.js处填写京东ck;
-    const shareCodes = []
+    let shareCodes = []
     if ($.isNode()) {
       if (process.env.JD_BOOKCODES) {
         if (process.env.JD_BOOKCODES.indexOf('\n') > -1) {
