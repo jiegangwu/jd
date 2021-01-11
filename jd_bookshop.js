@@ -689,7 +689,7 @@ function requireConfig() {
         if (process.env.JD_BOOKCODES.indexOf('\n') > -1) {
           shareCodes = process.env.JD_BOOKCODES.split('\n');
         } else {
-          shareCodes = process.env.JD_BOOKCODES;
+          shareCodes = process.env.JD_BOOKCODES.split();
         }
       }
     }
