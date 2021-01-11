@@ -121,7 +121,6 @@ function requireConfig() {
         if ($.isNode()) {
             Object.keys(jdTokenNode).forEach((item) => {
                 tokenArr.push(JSON.parse(jdTokenNode[item]))
-                $.log(`本地设置京东账号TOKEN${JSON.stringify(tokenArr)}`)
             })
         } else {
             tokenArr.push(...[$.getdata('jxnc_token1') || tokenNull, $.getdata('jxnc_token2') || tokenNull]);
