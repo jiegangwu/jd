@@ -404,7 +404,7 @@ function submitInviteId(userName) {
             $.post(
                 {
                     url: `https://api.ninesix.cc/api/jx-nc/${$.info.smp}/${encodeURIComponent(userName)}?active=${$.info.active}`,
-                    timeout: 3000
+                    timeout: 10000
                 },
                 (err, resp, _data) => {
                     try {
@@ -430,7 +430,7 @@ function submitInviteId(userName) {
 function getAssistUser() {
     return new Promise(resolve => {
         try {
-            $.get({url: `https://api.ninesix.cc/api/jx-nc?active=${$.info.active}`, timeout: 3000}, async (err, resp, _data) => {
+            $.get({url: `https://api.ninesix.cc/api/jx-nc?active=${$.info.active}`, timeout: 10000}, async (err, resp, _data) => {
                 try {
                     const {code, data = {}} = JSON.parse(_data);
                     if (data.value) {
@@ -551,7 +551,7 @@ function taskUrl(function_path, body) {
             Host: `wq.jd.com`,
             'Accept-Language': `zh-cn`,
         },
-        timeout: 3000,
+        timeout: 10000,
     };
 }
 
