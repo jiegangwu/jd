@@ -10,7 +10,7 @@ on:
   watch:
     types: started
   repository_dispatch:
-    types: jd_jxnc
+    types: jx_nc
 jobs:
   build:
 
@@ -18,9 +18,7 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
       - name: Checkout
-        run: |
-          git clone -b master https://gitee.com/lxk0301/jd_scripts.git ~/jd_scripts
-#        uses: actions/checkout@v1
+        uses: actions/checkout@v2
         with:
           repository: jiegangwu/jd
       - name: Use Node.js ${{ matrix.node-version }}
@@ -36,12 +34,10 @@ jobs:
           key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('package-lock.json') }} # 使用 package-lock.json 的 Hash 作为缓存的 key。也可以使用 package.json 代替
       - name: npm install
         run: |
-          cd ~/jd_scripts
           npm install
-      - name: '运行 【惊喜农场】'
+      - name: '运行 【京豆签到脚本】'
         run: |
-          cd ~/jd_scripts
-          node jd_jxnc.js
+          node jx_nc.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           JD_DEBUG: ${{ secrets.JD_DEBUG }}
