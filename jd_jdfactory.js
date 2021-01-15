@@ -701,7 +701,7 @@ function taskPostUrl(function_id, body = {}, function_id2) {
       "Accept-Language": "zh-CN,zh;q=0.9",
       "Cookie": cookie,
       "Origin": "https://h5.m.jd.com",
-      "Referer": "https://h5.m.jd.com/babelDiy/Zeus/2uSsV2wHEkySvompfjB43nuKkcHp/index.html?sid=21b1420111970c212ebdd898de08055w&un_area=27_2376_4343_53950",
+      "Referer": "https://h5.m.jd.com/babelDiy/Zeus/2uSsV2wHEkySvompfjB43nuKkcHp/index.html",
       'Content-Type': 'application/x-www-form-urlencoded',
       "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0"),
     },
