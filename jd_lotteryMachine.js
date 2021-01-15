@@ -38,7 +38,7 @@ function updateShareCodes(url = 'https://raw.githubusercontent.com/yangtingxiao/
         if (err) {
           console.log(`${JSON.stringify(err)}`)
         } else {
-          $.body = data.replace(/const shareCodeArr.+/,"const shareCodeArr = ['T0225KkcR00c9VbSdEmnk_dbdgCjVUloaW5kRrbA']");
+          $.body = data.replace(/const shareCodeArr.+/,"const shareCodeArr = ['T0225KkcR00c9VbSdEmnk_dbdgCjVUloaW5kRrbA']").replace("\/\/console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)","console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)");
         }
       } catch (e) {
         $.logErr(e, resp)
