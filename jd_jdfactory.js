@@ -251,6 +251,9 @@ async function helpFriends() {
     if (helpRes.code === 0 && helpRes.data.bizCode === -7) {
       console.log(`助力机会已耗尽，跳出`);
       break
+    }else if(helpRes.code === 0 && helpRes.data.bizCode === -4001){
+      console.log(`助力异常，跳出`);
+      break
     }
   }
 }
