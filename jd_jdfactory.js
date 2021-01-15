@@ -248,7 +248,7 @@ async function helpFriends() {
   for (let code of $.newShareCodes) {
     if (!code) continue
     const helpRes = await jdfactory_collectScore(code);
-    if (helpRes.code === 0 && helpRes.data.bizCode === -7) {
+    if (helpRes.code === 0 && (helpRes.data.bizCode === -7 || helpRes.data.bizCode === -9)) {
       console.log(`助力机会已耗尽，跳出`);
       break
     }else if(helpRes.code === 0 && helpRes.data.bizCode === -4001){
