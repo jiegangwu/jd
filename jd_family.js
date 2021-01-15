@@ -4,6 +4,7 @@
  * @Last Modified by:   shylocks
  * @Last Modified time: 2021-01-13 13:27:41
  */
+/*
 
 const $ = new Env('京东家庭号');
 const notify = $.isNode() ? require('./sendNotify') : '';
