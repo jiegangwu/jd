@@ -343,7 +343,7 @@ async function doTask() {
           console.log(`${item.taskName}已完成`);
         }
       }
-     /* if (item.taskType === 23) {
+      if (item.taskType === 23) {
         //从数码电器首页进入
         if (item.status === 1) {
           console.log(`准备做此任务：${item.taskName}`);
@@ -352,7 +352,7 @@ async function doTask() {
         } else {
           console.log(`${item.taskName}已完成`);
         }
-      }*/
+      }
     }
   }
 }
