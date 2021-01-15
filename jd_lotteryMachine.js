@@ -38,7 +38,7 @@ function updateShareCodes(url = 'https://raw.githubusercontent.com/yangtingxiao/
         if (err) {
           console.log(`${JSON.stringify(err)}`)
         } else {
-          $.body = data.replace(/const shareCodeArr.+/,"const shareCodeArr = ['T0225KkcR00c9VbSdEmnk_dbdgCjVUloaW5kRrbA']").replace("\/\/console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)","console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)");
+          $.body = data.replace(/const shareCodeArr.+/,"const shareCodeArr = ['T0225KkcR00c9VbSdEmnk_dbdgCjVUloaW5kRrbA','T0225KkcRhdI8ALTIx73kPMMJgCjVVl4aW5kRrbA','T0225KkcRk0d9V2BcUuilqICJQCjVVl4aW5kRrbA','T018v_VxQBwQ81zXKR2b1ACjVVl4aW5kRrbA','T0225KkcRkgb_F3ScR-gwKUPcwCjVVl4aW5kRrbA']");//.replace("\/\/console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)","console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)");
         }
       } catch (e) {
         $.logErr(e, resp)
@@ -56,7 +56,7 @@ function updateShareCodesCDN(url = 'https://raw.fastgit.org/yangtingxiao/Quantum
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
-          $.body = data.replace(/const shareCodeArr.+/,"const shareCodeArr = ['T0225KkcR00c9VbSdEmnk_dbdgCjVUloaW5kRrbA']").replace("\/\/console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)","console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)");
+          $.body = data.replace(/const shareCodeArr.+/,"const shareCodeArr = ['T0225KkcR00c9VbSdEmnk_dbdgCjVUloaW5kRrbA','T0225KkcRhdI8ALTIx73kPMMJgCjVVl4aW5kRrbA','T0225KkcRk0d9V2BcUuilqICJQCjVVl4aW5kRrbA','T018v_VxQBwQ81zXKR2b1ACjVVl4aW5kRrbA','T0225KkcRkgb_F3ScR-gwKUPcwCjVVl4aW5kRrbA']");//.replace("\/\/console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)","console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)");
         }
       } catch (e) {
         $.logErr(e, resp)
