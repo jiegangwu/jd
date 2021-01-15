@@ -56,7 +56,7 @@ function updateShareCodesCDN(url = 'https://raw.fastgit.org/yangtingxiao/Quantum
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
-          $.body = data.replace(/const shareCodeArr.+/,"const shareCodeArr = ['T0225KkcR00c9VbSdEmnk_dbdgCjVUloaW5kRrbA']");
+          $.body = data.replace(/const shareCodeArr.+/,"const shareCodeArr = ['T0225KkcR00c9VbSdEmnk_dbdgCjVUloaW5kRrbA']").replace("//console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)","console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)");
         }
       } catch (e) {
         $.logErr(e, resp)
