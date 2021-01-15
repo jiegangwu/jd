@@ -687,7 +687,7 @@ function taskPostUrl(function_id, body = {}, function_id2) {
   if (function_id2) {
     url += `?functionId=${function_id2}`;
   }
-  console.log(`body，${escape(JSON.stringify(body))}`);
+  console.log(`body，${JSON.stringify(body)}`);
   return {
     url,
     body: `functionId=${function_id}&body=${escape(JSON.stringify(body))}&client=wh5&clientVersion=1.0.0`,
