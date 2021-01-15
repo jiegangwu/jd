@@ -38,7 +38,7 @@ function updateShareCodes(url = 'https://raw.githubusercontent.com/yangtingxiao/
         if (err) {
           console.log(`${JSON.stringify(err)}`)
         } else {
-          $.body = data;
+          $.body = data.replace(/const shareCodeArr.+/,"const shareCodeArr = ['T0225KkcR00c9VbSdEmnk_dbdgCjVUloaW5kRrbA']");
         }
       } catch (e) {
         $.logErr(e, resp)
@@ -56,7 +56,7 @@ function updateShareCodesCDN(url = 'https://raw.fastgit.org/yangtingxiao/Quantum
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
-          $.body = data;
+          $.body = data.replace(/const shareCodeArr.+/,"const shareCodeArr = ['T0225KkcR00c9VbSdEmnk_dbdgCjVUloaW5kRrbA']");
         }
       } catch (e) {
         $.logErr(e, resp)
