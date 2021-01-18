@@ -4,9 +4,12 @@
 50 23 */3 * * rm -rf /scripts/logs/*.log
 
 ##############短期活动##############
-# 健康抽奖机
-10 0 * * * node /scripts/jd_health.js >> /scripts/logs/jd_health.log 2>&1
-
+#年货节(活动时间：2021年1月9日-2021年2月9日)
+10 8 * * * node /scripts/jd_nh.js >> /scripts/logs/jd_nh.log 2>&1
+#京东炸年兽集爆竹(活动时间:2021-1-18至2021-2-11)怕有遗漏故多运行几次
+0 8,9,10 * * * node /scripts/jd_nian.js >> /scripts/logs/jd_nian.log 2>&1
+#专门收集每秒产生的爆竹(1小时运行一次)
+0 * * * * node /scripts/jd_nianCollect.js >> /scripts/logs/jd_nianCollect.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
@@ -60,8 +63,6 @@
 36 * * * * node /scripts/jd_jdfactory.js >> /scripts/logs/jd_jdfactory.log 2>&1
 # 十元街
 36 8,18 * * * node /scripts/jd_syj.js >> /scripts/logs/jd_syj.log 2>&1
-# 京东代属(注:限校园用户可使用)
-# 36 9 * * * node /scripts/jd_ds.js >> /scripts/logs/jd_ds.log 2>&1
 # 京东快递签到
 23 1 * * * node /scripts/jd_kd.js >> /scripts/logs/jd_kd.log 2>&1
 # 京东汽车(签到满500赛点可兑换500京豆)
@@ -82,3 +83,13 @@
 0 0 * * * node /scripts/jd_car_exchange.js >> /scripts/logs/jd_car_exchange.log 2>&1
 # 导到所有互助码
 47 7 * * * node /scripts/jd_get_share_code.js >> /scripts/logs/jd_get_share_code.log 2>&1
+# 口袋书店
+7 8,12,18 * * * node /scripts/jd_bookshop.js >> /scripts/logs/jd_bookshop.log 2>&1
+# 京喜农场
+0 9,12,18 * * * node /scripts/jd_jxnc.js >> /scripts/logs/jd_jxnc.log 2>&1
+# 签到领现金
+27 7 * * * node /scripts/jd_cash.js >> /scripts/logs/jd_cash.log 2>&1
+# 京喜app签到
+39 7 * * * node /scripts/jx_sign.js >> /scripts/logs/jx_sign.log 2>&1
+#京东家庭号(暂不知最佳cron)
+*/20 * * * * node /scripts/jd_family.js >> /scripts/logs/jd_family.log 2>&1
