@@ -552,6 +552,7 @@ function taskUrl(function_path, body) {
             'Accept-Encoding': `gzip, deflate, br`,
             Host: `wq.jd.com`,
             'Accept-Language': `zh-cn`,
+            'User-Agent':'jdpingou;android;4.1.0;10;1ccd38f77bbfe207-35667505667247;network/wifi;model/M2007J3SC;appBuild/15227;partner/xiaomi;;session/175;aid/791701b9d2a2a1f3;oaid/0d3c61196b69d753;pap/JA2019_3111789;brand/Xiaomi;Mozilla/5.0 (Linux; Android 10; M2007J3SC Build/QKQ1.200419.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/86.0.4240.198 Mobile Safari/537.36'
         },
         timeout: 10000,
     };
