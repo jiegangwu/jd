@@ -536,14 +536,6 @@ function requireConfig() {
         }
       }
     }
-    console.log(`共${cookiesArr.length}个京东账号\n`);
-    if ($.isNode() && process.env.JDNIAN_SHARECODES) {
-      if (process.env.JDNIAN_SHARECODES.indexOf('\n') > -1) {
-        shareCodes = process.env.JDNIAN_SHARECODES.split('\n');
-      } else {
-        shareCodes = process.env.JDNIAN_SHARECODES.split('&');
-      }
-    }
     $.shareCodesArr = [];
     if ($.isNode()) {
       Object.keys(shareCodes).forEach((item) => {
