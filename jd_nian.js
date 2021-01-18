@@ -34,7 +34,7 @@ if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
   })
-  if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
+  if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'true') console.log = () => {};
 } else {
   let cookiesData = $.getdata('CookiesJD') || "[]";
   cookiesData = jsonParse(cookiesData);
@@ -86,13 +86,19 @@ const inviteCodes = [
     })
 async function jdNian() {
   await getHomeData()
+  console.log(1)
   if(!$.secretp) return
   await getTaskList()
+  console.log(2)
   await $.wait(1000)
   await doTask()
+  console.log(3)
   await helpFriends()
+  console.log(4)
   await getHomeData(true)
+  console.log(5)
   await showMsg()
+  console.log(6)
 }
 function encode(data, aa, extraData) {
   const temp = {
@@ -446,6 +452,7 @@ function getTaskList(body={}) {
               if(JSON.stringify(body)==="{}") {
                 $.taskVos = data.data.result.taskVos;//任务列表
                 console.log(`您的好友助力码为${data.data.result.inviteId}`)
+                console.log(data.data.result.taskVos)
                }
               // $.userInfo = data.data.result.userInfo;
             }
