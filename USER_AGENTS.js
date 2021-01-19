@@ -11,7 +11,7 @@ const USER_AGENTS = [
 function randomNumber(min = 0, max = 100) {
   return Math.min(Math.floor(min + Math.random() * (max - min)), max);
 }
-const USER_AGENT = USER_AGENTS[ USER_AGENTS.length - 4];
+const USER_AGENT = USER_AGENTS[ 0 ];
 
 module.exports = {
   USER_AGENT
