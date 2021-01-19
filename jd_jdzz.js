@@ -144,6 +144,8 @@ function getAuthorShareCode(url) {
       }}, async (err, resp, data) => {
       try {
         if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
           $.tuanList = $.tuanList.concat(JSON.parse(data))
           console.log(`作者助力码获取成功`)
