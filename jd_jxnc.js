@@ -44,7 +44,7 @@ let currentCookie = ''; // 当前用户 cookie
 let tokenNull = {'farm_jstoken': '', 'phoneid': '', 'timestamp': ''}; // 内置一份空的 token
 let tokenArr = []; // 用户 token 数组
 let currentToken = {}; // 当前用户 token
-const shareCode = '60804228819a20ec89c4e1709de4c236@22bd6fbbabbaa770a45ab2607e7a1e8a@197c6094e965fdf3d33621b47719e0b1'; // 内置助力码
+const shareCode = '4c34c49e2c37f15da8fba53026e0bc0a@c69eead4e7da881fb46aede0188e30f3@278d3aa9e52ee4444d5979c35a8e9c75@35e19d635320a5d1a65aa3c70010f705@d1d6bb58f318afe42b83fd395937fbed@d48e06d4dec0498b8fbed78f169c314d'; // 内置助力码
 let jxncShareCodeArr = []; // 用户 助力码 数组
 let currentShareCode = []; // 当前用户 要助力的助力码
 const openUrl = `openjd://virtual?params=${encodeURIComponent('{ "category": "jump", "des": "m", "url": "https://wqsh.jd.com/sns/201912/12/jxnc/detail.html?ptag=7155.9.32&smp=b47f4790d7b2a024e75279f55f6249b9&active=jdnc_1_chelizi1205_2"}',)}`; // 打开京喜农场
@@ -202,8 +202,10 @@ function tokenFormat() {
     return new Promise(async resolve => {
         if (tokenArr[$.index - 1] && tokenArr[$.index - 1].farm_jstoken) {
             currentToken = tokenArr[$.index - 1];
+            $.log(`1当前京东账号TOKEN${JSON.stringify(currentToken)}`)
         } else {
             currentToken = tokenNull;
+            $.log(`2当前京东账号TOKEN${JSON.stringify(currentToken)}`)
         }
         resolve();
     })
@@ -246,20 +248,6 @@ async function jdJXNC() {
             await submitInviteId($.UserName);
             await $.wait(500);
             let next = await helpFriends();
-            if (next) {
-                while (true) {
-                    assistUserShareCode = await getAssistUser();
-                    if (assistUserShareCode) {
-                        await $.wait(300);
-                        next = await helpShareCode(assistUserShareCode);
-                        if (next) {
-                            await $.wait(200);
-                            continue;
-                        }
-                    }
-                    break;
-                }
-            }
         }
     }
     await showMsg()
@@ -565,6 +553,7 @@ function taskUrl(function_path, body) {
             'Accept-Encoding': `gzip, deflate, br`,
             Host: `wq.jd.com`,
             'Accept-Language': `zh-cn`,
+           // 'User-Agent':'jdpingou;android;4.1.0;10;1ccd38f77bbfe207-35667505667247;network/wifi;model/M2007J3SC;appBuild/15227;partner/xiaomi;;session/175;aid/791701b9d2a2a1f3;oaid/0d3c61196b69d753;pap/JA2019_3111789;brand/Xiaomi;Mozilla/5.0 (Linux; Android 10; M2007J3SC Build/QKQ1.200419.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/86.0.4240.198 Mobile Safari/537.36'
         },
         timeout: 10000,
     };
