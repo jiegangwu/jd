@@ -6,7 +6,7 @@ while true
 do
         pid="$(ps -ef|grep $p_name|grep -v grep|awk '{print $2}'|head -n1)"
         echo $pid
-        if [ -n $pid ];then
+        if [ $pid ];then
                 kill -9 $pid
                 echo "kill success " $pid $p_name
                 continue
