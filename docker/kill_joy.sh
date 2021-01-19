@@ -4,7 +4,7 @@ p_name=jd_crazy_joy_coin
 
 while true
 do
-        pid="$(ps -ef|grep $p_name|awk '{print $2}'|head -n1)"
+        pid="$(ps -ef|grep $p_name|grep -v grep|awk '{print $2}'|head -n1)"
         echo $pid
         if [ -n $pid ];then
                 kill -9 $pid
