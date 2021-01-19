@@ -175,7 +175,7 @@ function helpFriendTuan(body) {
               else if (data.resultCode === '9200011') console.log('已经助力过')
               else if (data.resultCode === '2400205') console.log('团已满')
               else if (data.resultCode === '2400203') {console.log('助力次数已耗尽');$.canHelp = false}
-              else console.log(`未知错误`)
+              else console.log(`未知错误:${JSON.stringify(data)}`)
             }
           }
         }
