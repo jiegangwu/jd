@@ -2,8 +2,8 @@
 京东神仙书院
 活动时间:2021-1-20至2021-2-5
 暂不加入品牌会员，需要自行填写坐标，用于做逛身边好店任务
-环境变量JD_IMMORTAL_LATLON(经纬度)
-示例：D_IMMORTAL_LATLON={"lat":33.1, "lng":118.1}
+环境变量：JD_IMMORTAL_LATLON(经纬度)
+示例：JD_IMMORTAL_LATLON={"lat":33.1, "lng":118.1}
 boxjs IMMORTAL_LATLON
 活动入口: 京东app-我的-神仙书院
 活动地址：https://h5.m.jd.com//babelDiy//Zeus//4XjemYYyPScjmGyjej78M6nsjZvj//index.html?babelChannel=ttt9
@@ -309,7 +309,7 @@ function shareCodesFormat() {
   })
 }
 function requireConfig() {
-  return new Promise(resolve => {
+  return new Promise(async resolve => {
     console.log(`开始获取${$.name}配置文件\n`);
     //Node.js用户请在jdCookie.js处填写京东ck;
     let shareCodes = []
@@ -328,7 +328,7 @@ function requireConfig() {
           $.shareCodesArr.push(shareCodes[item])
         }
       })
-      $.cor = process.env.JD_IMMORTAL_LATLON?JSON.parse(process.env.JD_IMMORTAL_LATLON):{}
+      $.cor = process.env.JD_IMMORTAL_LATLON?JSON.parse(process.env.JD_IMMORTAL_LATLON):(await getLatLng())
     }else{
       $.cor = $.getdata("IMMORTAL_LATLON")?JSON.parse($.getdata("IMMORTAL_LATLON")):{}
     }
@@ -336,6 +336,39 @@ function requireConfig() {
     console.log(`您提供了${$.shareCodesArr.length}个账号的${$.name}助力码\n`);
     resolve()
   })
+}
+
+// 自动获取经纬度
+function getLatLng() {
+  return new Promise(resolve => {
+    try {
+      console.log('开始自动获取经纬度 lat lng ……');
+      $.get({
+        url: 'https://jingweidu.bmcx.com/web_system/bmcx_com_www/system/file/jingweidu/api/?v=20031911',
+        headers: {
+          "referer": "https://jingweidu.bmcx.com/",
+          'Content-Type': 'text/html; charset=utf-8',
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+        }
+      }, async (err, resp, data) => {
+        const res = data.match(/qq\.maps\.LatLng\(([\d\.]+), ([\d\.]+)\)/);
+        let lat = res[1];
+        let lng = res[2];
+        if (lat > 0 && lng > 0) {
+          resolve({
+            'lng': lng,
+            'lat': lat
+          });
+          return;
+        }
+        console.log('自动获取经纬度 lat lng 失败，返回经纬度结果错误');
+        resolve({});
+      });
+    } catch (e) {
+      console.log('自动获取经纬度 lat lng 失败，触发异常');
+      resolve({});
+    }
+  });
 }
 
 function taskPostUrl(function_id, body = {}, function_id2) {
