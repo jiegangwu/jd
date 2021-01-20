@@ -248,8 +248,11 @@ async function helpFriends() {
   for (let code of $.newShareCodes) {
     if (!code) continue
     const helpRes = await jdfactory_collectScore(code);
-    if (helpRes.code === 0 && helpRes.data.bizCode === -7) {
+    if (helpRes.code === 0 && (helpRes.data.bizCode === -7 || helpRes.data.bizCode === -9)) {
       console.log(`助力机会已耗尽，跳出`);
+      break
+    }else if(helpRes.code === 0 && helpRes.data.bizCode === -4001){
+      console.log(`助力异常，跳出`);
       break
     }
   }
@@ -357,7 +360,7 @@ async function doTask() {
 //领取做完任务的奖励
 function jdfactory_collectScore(taskToken) {
   return new Promise(async resolve => {
-    await $.wait(1000);
+    await $.wait(3000);
     $.post(taskPostUrl("jdfactory_collectScore", { taskToken }, "jdfactory_collectScore"), async (err, resp, data) => {
       try {
         if (err) {
@@ -655,10 +658,10 @@ function shareCodesFormat() {
       const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
       $.newShareCodes = inviteCodes[tempIndex].split('@');
     }
-    const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
-    }
+  //  const readShareCodeRes = await readShareCode();
+  //  if (readShareCodeRes && readShareCodeRes.code === 200) {
+  //    $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
+  //  }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
