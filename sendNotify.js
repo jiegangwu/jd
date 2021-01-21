@@ -16,7 +16,7 @@ let SCKEY = '';
 //此处填你申请的SKEY(具体详见文档 https://cp.xuthus.cc/)
 //(环境变量名 QQ_SKEY)
 let QQ_SKEY = '';
-//此处填写私聊或群组推送，默认私聊(send或group或者wx)
+//此处填写私聊或群组推送，默认私聊(send[私聊]、group[群聊]、wx[个微]、ww[企微]、email[邮件])
 let QQ_MODE = 'send';
 
 // =======================================Bark App通知设置区域===========================================
@@ -194,24 +194,62 @@ function serverNotify(text, desp, timeout = 2100) {
 function CoolPush(text, desp) {
   return  new Promise(resolve => {
     if (QQ_SKEY) {
-      const options = {
+      let options = {
         url: `https://push.xuthus.cc/${QQ_MODE}/${QQ_SKEY}`,
-        body: `${text}\n\n${desp}`,
         headers: {
           'Content-Type': 'application/json'
         }
       }
+
+      // 已知敏感词
+      text = text.replace(/京豆/g, "豆豆");
+      desp = desp.replace(/京豆/g, "");
+      desp = desp.replace(/🐶/g, "");
+      desp = desp.replace(/红包/g, "H包");
+
+      switch (QQ_MODE) {
+        case "email":
+          options.json = {
+            "t": text,
+            "c": desp,
+          };
+          break;
+        default:
+          options.body = `${text}\n\n${desp}`;
+      }
+
+      let pushMode = function(t) {
+        switch (t){
+          case "send":
+            return "个人";
+          case "group":
+            return "QQ群";
+          case "wx":
+            return "微信";
+          case "ww":
+            return "企业微信";
+          case "email":
+            return "邮件";
+          default:
+            return "未知方式"
+        }
+      }
+
       $.post(options, (err, resp, data) => {
         try {
           if (err) {
-            console.log(`发送${QQ_MODE === 'send' ? '个人' : QQ_MODE === 'group' ? 'QQ群' : QQ_MODE === 'wx' ? '微信' : ''}通知调用API失败！！\n`)
+            console.log(`发送${pushMode(QQ_MODE)}通知调用API失败！！\n`)
             console.log(err);
           } else {
             data = JSON.parse(data);
             if (data.code === 200) {
-              console.log(`酷推发送${QQ_MODE === 'send' ? '个人' : QQ_MODE === 'group' ? 'QQ群' : QQ_MODE === 'wx' ? '微信' : ''}通知消息成功\n`)
+              console.log(`酷推发送${pushMode(QQ_MODE)}通知消息成功\n`)
             } else if (data.code === 400) {
-              console.log(`QQ酷推(Cool Push)发送${QQ_MODE === 'send' ? '个人' : QQ_MODE === 'group' ? 'QQ群' : QQ_MODE === 'wx' ? '微信' : ''}推送失败：${data.msg}\n`)
+              console.log(`QQ酷推(Cool Push)发送${pushMode(QQ_MODE)}推送失败：${data.msg}\n`)
+            } else if (data.code === 503) {
+              console.log(`QQ酷推出错，${data.message}：${data.data}\n`)
+            }else{
+              console.log(`酷推推送异常: ${JSON.stringify(data)}`);
             }
           }
         } catch (e) {
