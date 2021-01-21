@@ -70,7 +70,6 @@ const inviteCodes = [];
         }
         continue
       }
-      await shareCodesFormat();
       await jdNian()
     }
   }
