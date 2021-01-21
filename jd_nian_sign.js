@@ -388,12 +388,6 @@ function shareCodesFormat() {
       $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
-      const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
-    }
-    const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
     }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
@@ -405,11 +399,11 @@ function requireConfig() {
     //Node.js用户请在jdCookie.js处填写京东ck;
     let shareCodes = []
     console.log(`共${cookiesArr.length}个京东账号\n`);
-    if ($.isNode() && process.env.JDNIAN_SHARECODES) {
-      if (process.env.JDNIAN_SHARECODES.indexOf('\n') > -1) {
-        shareCodes = process.env.JDNIAN_SHARECODES.split('\n');
+    if ($.isNode() && process.env.NS_SHARECODES) {
+      if (process.env.NS_SHARECODES.indexOf('\n') > -1) {
+        shareCodes = process.env.NS_SHARECODES.split('\n');
       } else {
-        shareCodes = process.env.JDNIAN_SHARECODES.split('&');
+        shareCodes = process.env.NS_SHARECODES.split('&');
       }
     }
     $.shareCodesArr = [];
