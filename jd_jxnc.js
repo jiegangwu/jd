@@ -251,8 +251,10 @@ function tokenFormat() {
     return new Promise(async resolve => {
         if (tokenArr[$.index - 1] && tokenArr[$.index - 1].farm_jstoken) {
             currentToken = tokenArr[$.index - 1];
+            $.log(`1当前京东账号TOKEN${JSON.stringify(currentToken)}`)
         } else {
             currentToken = tokenNull;
+            $.log(`2当前京东账号TOKEN${JSON.stringify(currentToken)}`)
         }
         resolve();
     })
@@ -291,7 +293,7 @@ async function jdJXNC() {
             };
             $.log(`【京东账号${$.index}（${$.nickName || $.UserName}）的${$.name}好友互助码】` + JSON.stringify(shareCodeJson));
             await $.wait(500);
-            const isOk = await browserTask();
+     const isOk = await browserTask();
             if (isOk) {
                 await $.wait(500);
                 await answerTask();
@@ -301,25 +303,10 @@ async function jdJXNC() {
                 await submitInviteId($.UserName);
                 await $.wait(500);
                 let next = await helpFriends();
-                if (next) {
-                    while ($.helpNum < $.maxHelpNum) {
-                        $.helpNum++;
-                        assistUserShareCodeJson = await getAssistUser();
-                        if (assistUserShareCodeJson) {
-                            await $.wait(500);
-                            next = await helpShareCode(assistUserShareCodeJson['smp'], assistUserShareCodeJson['active'], assistUserShareCodeJson['joinnum']);
-                            if (next) {
-                                await $.wait(1000);
-                                continue;
-                            }
-                        }
-                        break;
-                    }
-                }
             }
         }
     }
-    await showMsg()
+    await showMsg()      
 }
 
 // 获取任务列表与用户信息
@@ -634,6 +621,7 @@ function taskUrl(function_path, body) {
             'Accept-Encoding': `gzip, deflate, br`,
             Host: `wq.jd.com`,
             'Accept-Language': `zh-cn`,
+           // 'User-Agent':'jdpingou;android;4.1.0;10;1ccd38f77bbfe207-35667505667247;network/wifi;model/M2007J3SC;appBuild/15227;partner/xiaomi;;session/175;aid/791701b9d2a2a1f3;oaid/0d3c61196b69d753;pap/JA2019_3111789;brand/Xiaomi;Mozilla/5.0 (Linux; Android 10; M2007J3SC Build/QKQ1.200419.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/86.0.4240.198 Mobile Safari/537.36'
         },
         timeout: 10000,
     };
