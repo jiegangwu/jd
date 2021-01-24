@@ -27,10 +27,7 @@ const $ = new Env('闪购盲盒');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let appId = '1EFRRxA' , homeDataFunPrefix = 'interact_template', collectScoreFunPrefix = 'harmony', message = ''
 let lotteryResultFunPrefix = homeDataFunPrefix, browseTime = 6
-const inviteCodes = [
-  'T019-aknAFRllhyoQlyI46gCjVWmIaW5kRrbA',
-  'T019-aknAFRllhyoQlyI46gCjVWmIaW5kRrbA'
-];
+const inviteCodes = [];
 const randomCount = $.isNode() ? 20 : 5;
 let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
@@ -300,13 +297,6 @@ function shareCodesFormat() {
       $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
-      const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
-    }
-    const readShareCodeRes = await readShareCode();
-    // console.log(readShareCodeRes)
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
     }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
