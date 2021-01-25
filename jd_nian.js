@@ -1010,12 +1010,6 @@ function shareCodesFormatPk() {
       $.newShareCodesPk = $.shareCodesPkArr[$.index - 1].split('@');
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
-      const tempIndex = $.index > pkInviteCodes.length ? (pkInviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodesPk = pkInviteCodes[tempIndex].split('@');
-    }
-    const readShareCodeRes = await readShareCodePk();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodesPk = [...new Set([...$.newShareCodesPk, ...(readShareCodeRes.data || [])])];
     }
     console.log(`第${$.index}个京东账号将要助力的PK好友${JSON.stringify($.newShareCodesPk)}`)
     resolve();
