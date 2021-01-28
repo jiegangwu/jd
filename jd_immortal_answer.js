@@ -86,7 +86,10 @@ async function jdImmortalAnswer() {
     $.earn = 0
     await getHomeData()
     if ($.risk) return
-    await getQuestions()
+    for(var num = 0;num<6;num++){
+        await getQuestions()
+        await $.wait(2000)
+    }
     await showMsg()
   } catch (e) {
     $.logErr(e)
