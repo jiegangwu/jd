@@ -88,7 +88,7 @@ async function jdImmortalAnswer() {
     if ($.risk) return
     for(var num = 0;num<6;num++){
         await getQuestions()
-        await $.wait(2000)
+        await $.wait(5000)
     }
     await showMsg()
   } catch (e) {
