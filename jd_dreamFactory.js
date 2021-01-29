@@ -37,7 +37,7 @@ const JD_API_HOST = 'https://m.jingxi.com';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
 const randomCount = $.isNode() ? 20 : 5;
-let tuanActiveId = `4WbghxAbaDGMjxX48Mt5XA==`;//TvjO5k4gaVqVHMRJIogd_g==
+let tuanActiveId = `TvjO5k4gaVqVHMRJIogd_g==`;//4WbghxAbaDGMjxX48Mt5XA==
 const jxOpenUrl = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://wqsd.jd.com/pingou/dream_factory/index.html%22%20%7D`;
 let cookiesArr = [], cookie = '', message = '';
 const inviteCodes = [
