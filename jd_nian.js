@@ -46,8 +46,8 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const inviteCodes = [];
-//const pkInviteCodes = ['IgNWdiLGaPaAvmHOWwCp7a6DYvMtm8hCYqzrL4xWcimj3KfS5kRYO5LyHRR98McZ@IgNWdiLGaPaAvmHPWwGp5rjzVqJsd081fNcaegOlc8SxxcuoYyVNtm_V5e_OKUVT@IgNWdiLGaPaAvmHPAVSsuTKvmVhkhbwLh1oiXuqO4-cFxzktOTpdSB6_hYBJWi85@IgNWdiLGaPaAvmHPXgeg5oyQVguaiKlza3snd9JArw5z9E05h5mOFl2tvoLrNK_8'];
-const pkInviteCodes = ['IgNWdiLGaPaAvmHOWwCp7a6DYvMtm8hCYqzrL4xWcimj3KfS5kRYO5LyHRR98MYQ@IgNWdiLGaPaAvmHPWwGp5rjzVqJsd081fNcaegOlc8SxxcuoYyVNtm_V5e_OKURa@IgNWdiLGaPaAvmHPAVSsuTKvmVhkhbwLh1oiXuqO4-cFxzktOTpdSB6_hYBJWi4w@IgNWdiLGaPaAvmHPXgeg5oyQVguaiKlza3snd9JArw5z9E05h5mOFl2tvoLrNK71'];
+const pkInviteCodes = ['IgNWdiLGaPaAvmHOWwCp7a6DYvMtm8hCYqzrL4xWcimj3KfS5kRYO5LyHRR98McZ@IgNWdiLGaPaAvmHPWwGp5rjzVqJsd081fNcaegOlc8SxxcuoYyVNtm_V5e_OKUVT@IgNWdiLGaPaAvmHPAVSsuTKvmVhkhbwLh1oiXuqO4-cFxzktOTpdSB6_hYBJWi85@IgNWdiLGaPaAvmHPXgeg5oyQVguaiKlza3snd9JArw5z9E05h5mOFl2tvoLrNK_8'];
+//const pkInviteCodes = ['IgNWdiLGaPaAvmHOWwCp7a6DYvMtm8hCYqzrL4xWcimj3KfS5kRYO5LyHRR98MYQ@IgNWdiLGaPaAvmHPWwGp5rjzVqJsd081fNcaegOlc8SxxcuoYyVNtm_V5e_OKURa@IgNWdiLGaPaAvmHPAVSsuTKvmVhkhbwLh1oiXuqO4-cFxzktOTpdSB6_hYBJWi4w@IgNWdiLGaPaAvmHPXgeg5oyQVguaiKlza3snd9JArw5z9E05h5mOFl2tvoLrNK71'];
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -95,7 +95,7 @@ async function jdNian() {
       $.hasGroup = false
       await pkTaskDetail()
       if ($.hasGroup) await pkInfo()
-      await helpFriendsPK()
+      //await helpFriendsPK()
     }
     if (12 <= hour && hour < 14) {
       // 北京时间20点-22点
