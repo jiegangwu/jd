@@ -178,8 +178,10 @@ function getTaskDetail(taskId,taskType) {
           if (safeGet(data)) {
             data = JSON.parse(data);
             if (data.success) {
+              $.canDone = true
               for(let vo of data.data.taskItemList){
                 await doTask(taskId,taskType,vo.itemId)
+                if(!$.canDone) break
                 await $.wait(1000)
               }
             } else {
@@ -217,6 +219,7 @@ function doTask(taskId,taskType,itemId) {
             if (data.success) {
               console.log(`任务完成成功`)
             } else {
+              $.canDone = false
               console.log(`任务完成失败`)
             }
           }
