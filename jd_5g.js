@@ -592,6 +592,10 @@ function shareCodesFormat() {
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
     }
+     let data = await updateShareCodes("https://gitee.com/jk9527/updateTeam/raw/my_master/jd_shareCodes.json")
+    if(data){
+      $.newShareCodes = data['shareCodes']
+    }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
@@ -610,10 +614,6 @@ function requireConfig() {
       } else {
         shareCodes = process.env.JD818_SHARECODES.split('&');
       }
-    }
-     let data = await updateShareCodes("https://gitee.com/jk9527/updateTeam/raw/my_master/jd_shareCodes.json")
-    if(data){
-      shareCodes = data['shareCodes']
     }
     $.shareCodesArr = [];
     if ($.isNode()) {
