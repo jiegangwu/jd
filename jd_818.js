@@ -594,12 +594,6 @@ async function doHelp() {
   console.log(`是否大于当天九点🕘:${nowTime > new Date(nowTime).setHours(9, 0, 0, 0)}`)
   //当天大于9:00才从API里面取收集的助力码
   //if (nowTime > new Date(nowTime).setHours(9, 0, 0, 0)) body = await printAPI();//访问收集的互助码
-  body = await printAPI();//访问收集的互助码
-  if (body && body['data']) {
-    // console.log(`printAPI返回助力码数量:${body.replace(/"/g, '').split(',').length}`)
-    // tempCode = tempCode.concat(body.replace(/"/g, '').split(','))
-    tempCode = [...tempCode, ...body['data']]
-  }
   console.log(`累计助力码数量:${tempCode.length}`)
   //去掉重复的
   tempCode = [...new Set(tempCode)];
