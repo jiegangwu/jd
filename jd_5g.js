@@ -611,6 +611,10 @@ function requireConfig() {
         shareCodes = process.env.JD818_SHARECODES.split('&');
       }
     }
+     let data = await updateShareCodes("https://gitee.com/jk9527/updateTeam/raw/my_master/jd_shareCodes.json")
+    if(data){
+      shareCodes = data['shareCodes']
+    }
     $.shareCodesArr = [];
     if ($.isNode()) {
       Object.keys(shareCodes).forEach((item) => {
@@ -619,6 +623,7 @@ function requireConfig() {
         }
       })
     }
+   
     console.log(`您提供了${$.shareCodesArr.length}个账号的${$.name}助力码\n`);
     resolve()
   })
@@ -735,7 +740,7 @@ function jsonParse(str) {
     }
   }
 }
-function updateShareCodes(url = 'https://gitee.com/lxk0301/updateTeam/raw/master/jd_818.json') {
+function updateShareCodes(url = 'https://gitee.com/jk9527/updateTeam/raw/my_master/jd_shareCodes.json') {
   return new Promise(resolve => {
     $.get({url,
       headers:{"User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0")}
