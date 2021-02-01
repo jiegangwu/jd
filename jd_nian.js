@@ -46,7 +46,7 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const inviteCodes = [];
-const pkInviteCodes = ['IgNWdiLGaPaAvmHOWwCp7a6DYvMtm8hCYqzrL4xWcimj3KfS5kRYO5LyHRR98McY@IgNWdiLGaPaAvmHPWwGp5rjzVqJsd081fNcaegOlc8SxxcuoYyVNtm_V5e_OKUVS@IgNWdiLGaPaAvmHPAVSsuTKvmVhkhbwLh1oiXuqO4-cFxzktOTpdSB6_hYBJWi84@IgNWdiLGaPaAvmHPXgeg5oyQVguaiKlza3snd9JArw5z9E05h5mOFl2tvoLrNK_9'];
+const pkInviteCodes = ['IgNWdiLGaPaAvmHOWwCp7a6DYvMtm8hCYqzrL4xWcimj3KfS5kRYO5LyHRR98Mcb@IgNWdiLGaPaAvmHPWwGp5rjzVqJsd081fNcaegOlc8SxxcuoYyVNtm_V5e_OKUVR@IgNWdiLGaPaAvmHPAVSsuTKvmVhkhbwLh1oiXuqO4-cFxzktOTpdSB6_hYBJWi87@IgNWdiLGaPaAvmHPXgeg5oyQVguaiKlza3snd9JArw5z9E05h5mOFl2tvoLrNK_-'];
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -718,6 +718,20 @@ function shopLotteryInfo(shopSign) {
                         console.log(`${vo.taskName}已做完`)
                       }
                     }
+                  }else if (vo.taskType === 21) {
+                    if (vo.brandMemberVos) {
+                      if (vo.status === 1) {
+                        console.log(`准备做此任务：${vo.taskName}`)
+                        for (let task of vo.brandMemberVos) {
+                          if (task.status === 1) {
+                            await $.wait(2000)
+                            await collectScore(vo.taskId, task.advertId, null, null, shopSign);
+                          }
+                        }
+                      } else if (vo.status === 2) {
+                        console.log(`${vo.taskName}已做完`)
+                      }
+                    }
                   }
                 }
               }
@@ -755,6 +769,8 @@ function doShopLottery(shopSign) {
                 console.log(`抽奖成功，获得${result.score}爆竹🧨`)
               else if (result.awardType === 2 || result.awardType === 3)
                 console.log(`抽奖成功，获得优惠卷`)
+              else if (result.awardType === 5)
+                console.log(`抽奖成功，品牌卡`)
               else
                 console.log(`抽奖成功，获得${JSON.stringify(result)}`)
             } else {
