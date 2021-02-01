@@ -27,7 +27,7 @@ const $ = new Env('京东压岁钱');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
+let jdNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 const randomCount = $.isNode() ? 20 : 5;
 
 //IOS等用户直接用NobyDa的jd cookie
@@ -138,7 +138,7 @@ function showMsg() {
     if (!$.risk) message += `本次运行获得${Math.round($.red * 100) / 100}红包，共计红包${$.total}`
     //if($.total > 10)
     //await notify.sendNotify(`${$.name}`, `${message} 可以去微信提现了！`);
-    if (!jdNotify) {
+    if (!jdNotify && $.total > 10) {
       $.msg($.name, '', `${message}`);
     } else {
       $.log(`京东账号${$.index}${$.nickName}\n${message}`);
@@ -153,7 +153,7 @@ async function helpFriends() {
     if (!code) continue
     await helpFriend(code)
     if (!$.canHelp) return
-    await $.wait(2000)
+    await $.wait(3000)
   }
 }
 
