@@ -594,12 +594,6 @@ async function doHelp() {
   console.log(`是否大于当天九点🕘:${nowTime > new Date(nowTime).setHours(9, 0, 0, 0)}`)
   //当天大于9:00才从API里面取收集的助力码
   //if (nowTime > new Date(nowTime).setHours(9, 0, 0, 0)) body = await printAPI();//访问收集的互助码
-  body = await printAPI();//访问收集的互助码
-  if (body && body['data']) {
-    // console.log(`printAPI返回助力码数量:${body.replace(/"/g, '').split(',').length}`)
-    // tempCode = tempCode.concat(body.replace(/"/g, '').split(','))
-    tempCode = [...tempCode, ...body['data']]
-  }
   console.log(`累计助力码数量:${tempCode.length}`)
   //去掉重复的
   tempCode = [...new Set(tempCode)];
@@ -839,11 +833,13 @@ function getListRank() {
     })
   })
 }
-function updateShareCodes(url = 'https://raw.githubusercontent.com/LXK9301/updateTeam/master/jd_shareCodes.json') {
+function updateShareCodes(url = 'https://gitee.com/jk9527/updateTeam/raw/my_master/jd_shareCodes.json') {
   return new Promise(resolve => {
     //https://cdn.jsdelivr.net/gh/LXK9301/updateTeam@master/jd_shareCodes.json
     //https://raw.githubusercontent.com/LXK9301/updateTeam/master/jd_shareCodes.json
-    $.get({url}, async (err, resp, data) => {
+    $.get({url,headers:{
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+      }}, async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -858,10 +854,12 @@ function updateShareCodes(url = 'https://raw.githubusercontent.com/LXK9301/updat
     })
   })
 }
-function updateShareCodesCDN(url = 'https://gitee.com/lxk0301/updateTeam/raw/master/jd_shareCodes.json') {
+function updateShareCodesCDN(url = 'https://gitee.com/jk9527/updateTeam/raw/my_master/jd_shareCodes.json') {
   return new Promise(resolve => {
     //https://cdn.jsdelivr.net/gh/LXK9301/updateTeam@master/jd_shareCodes.json
-    $.get({url}, async (err, resp, data) => {
+    $.get({url,headers:{
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+      }}, async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
