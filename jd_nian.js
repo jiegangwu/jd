@@ -76,7 +76,7 @@ const pkInviteCodes = ['IgNWdiLGaPaAvmHOWwCp7a6DYvMtm8hCYqzrL4xWcimj3KfS5kRYO5Ly
       await jdNian()
     }
   }
-
+  if(superAssist.length)
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
