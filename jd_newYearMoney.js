@@ -136,6 +136,8 @@ async function receiveCards() {
 function showMsg() {
   return new Promise(resolve => {
     if (!$.risk) message += `本次运行获得${Math.round($.red * 100) / 100}红包，共计红包${$.total}`
+    if($.total > 10)
+    await notify.sendNotify(`${$.name}`, `${message} 可以去微信提现了！`);
     if (!jdNotify) {
       $.msg($.name, '', `${message}`);
     } else {
