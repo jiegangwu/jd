@@ -140,7 +140,7 @@ function showMsg() {
     //await notify.sendNotify(`${$.name}`, `${message} 可以去微信提现了！`);
     if (!jdNotify && $.total > 10) {
       $.msg($.name, '', `${message}`);
-      if ($.isNode()) await notify.sendNotify(`${$.name} - ${$.index} - ${$.nickName}`, `总共${$.total}红包，过晚12点限量微信提现！`);
+      if ($.isNode()) notify.sendNotify(`${$.name} - ${$.index} - ${$.nickName}`, `总共${$.total}红包，过晚12点限量微信提现！`);
     } else {
       $.log(`京东账号${$.index}${$.nickName}\n${message}`);
     }
