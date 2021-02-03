@@ -91,7 +91,7 @@ async function jdImmortalAnswer() {
     if ($.risk) return
     if ($.isNode()) {
       //一天答题上限是15次
-      for (let i = 0; i < 15; i++) {
+      for (let i = 0; i < 17; i++) {
         $.log(`\n开始第 ${i + 1}次答题\n`);
         await getQuestions()
         await $.wait(2000)
