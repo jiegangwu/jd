@@ -98,6 +98,14 @@ const pkInviteCodes = ['IgNWdiLGaPaAvmHOWwCp7a6DYvMtm8hCYqzrL4xWcimj3KfS5kRYO5Ly
       await helpSuper()
     }
   }
+  if ((nowTimes.getHours() < 20 && nowTimes.getHours() >= 10) && nowTimes.getDate() === 4) {
+    $.msg($.name, '', '队伍红包已可兑换\n点击弹窗直达', { 'open-url' : openUrl});
+    if ($.isNode()) await notify.sendNotify($.name, `队伍红包已可兑换\n兑换地址: https://wbbny.m.jd.com/babelDiy/Zeus/2cKMj86srRdhgWcKonfExzK4ZMBy/index.html`)
+  }
+  if (nowTimes.getHours() >= 20 && nowTimes.getDate() === 4) {
+    $.msg($.name, '', '年终奖红包已可兑换\n点击弹窗直达', { 'open-url' : openUrl})
+    if ($.isNode()) await notify.sendNotify($.name, `年终奖红包已可兑换\n兑换地址: https://wbbny.m.jd.com/babelDiy/Zeus/2cKMj86srRdhgWcKonfExzK4ZMBy/index.html`)
+  }
 })()
   .catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
