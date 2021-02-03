@@ -108,6 +108,7 @@ const pkInviteCodes = ['IgNWdiLGaPaAvmHOWwCp7a6DYvMtm8hCYqzrL4xWcimj3KfS5kRYO5Ly
 
 async function jdNian() {
   try {
+    $.full = false
     await getHomeData()
     if (!$.secretp) return
     let hour = new Date().getUTCHours()
@@ -125,6 +126,7 @@ async function jdNian() {
       if ($.hasGroup) await pkInfo()
       await helpFriendsPK()
     }
+    if($.full) return
     await $.wait(2000)
     await killCouponList()
     await $.wait(2000)
@@ -338,7 +340,12 @@ function getHomeData(info = false) {
               $.secretp = null
               return
             }
-            console.log(`\n\n当前等级:${$.userInfo.raiseInfo.curMaxLevel}\n当前爆竹${$.userInfo.raiseInfo.remainScore}🧨，下一关需要${$.userInfo.raiseInfo.nextLevelScore - $.userInfo.raiseInfo.curLevelStartScore}🧨\n\n`)
+            if ($.userInfo.raiseInfo.fullFlag) {
+              console.log(`当前等级已满，不再做日常任务！\n`)
+              $.full = true
+              return
+            }
+            console.log(`\n\n当前等级:${$.userInfo.raiseInfo.scoreLevel}\n当前爆竹${$.userInfo.raiseInfo.remainScore}🧨，下一关需要${$.userInfo.raiseInfo.nextLevelScore - $.userInfo.raiseInfo.curLevelStartScore}🧨\n\n`)
 
             if (info) {
               message += `当前爆竹${$.userInfo.raiseInfo.remainScore}🧨\n`
