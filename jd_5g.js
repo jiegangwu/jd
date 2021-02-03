@@ -591,12 +591,10 @@ function shareCodesFormat() {
       $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
-      const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
     }
-    const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
+     let data = await updateShareCodes("https://gitee.com/jk9527/updateTeam/raw/my_master/jd_shareCodes.json")
+    if(data){
+      $.newShareCodes = data['shareCodes']
     }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
@@ -625,11 +623,7 @@ function requireConfig() {
         }
       })
     }
-    let data = await updateShareCodes("https://gitee.com/shylocks/updateTeam/raw/main/jd_818.json")
-    if(data){
-      inviteCodes[0] = data.join('@')
-      inviteCodes[1] = data.join('@')
-    }
+   
     console.log(`您提供了${$.shareCodesArr.length}个账号的${$.name}助力码\n`);
     resolve()
   })
@@ -746,7 +740,7 @@ function jsonParse(str) {
     }
   }
 }
-function updateShareCodes(url = 'https://gitee.com/lxk0301/updateTeam/raw/master/shareCodes/jd_818.json') {
+function updateShareCodes(url = 'https://gitee.com/jk9527/updateTeam/raw/my_master/jd_shareCodes.json') {
   return new Promise(resolve => {
     $.get({url,
       headers:{"User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0")}
