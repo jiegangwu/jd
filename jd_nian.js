@@ -354,6 +354,7 @@ function getHomeData(info = false) {
             }
             if ($.userInfo.raiseInfo.fullFlag) {
               console.log(`当前等级已满，不再做日常任务！\n`)
+              console.log(`新的助力码:${$.userInfo.koiInviteId}\n`)
               $.full = true
               return
             }
