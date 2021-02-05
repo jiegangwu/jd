@@ -140,7 +140,7 @@ async function jdNian() {
     //   await helpFriendsPK()
     // }
     if($.full) { 
-       await  helpFriends() 
+      // await  helpFriends() 
        return
     }
     await $.wait(2000)
