@@ -119,6 +119,7 @@ const openUrl = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%
 
 async function jdNian() {
   try {
+    await  helpFriends() 
     $.full = false
     await getHomeData()
     if (!$.secretp) return
@@ -139,7 +140,7 @@ async function jdNian() {
     //   await helpFriendsPK()
     // }
     if($.full) { 
-     await  getPinColor();    
+     //await  getPinColor();    
        return
     }
     await $.wait(2000)
