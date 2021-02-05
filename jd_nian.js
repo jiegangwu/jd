@@ -653,7 +653,7 @@ function getTaskList(body = {}) {
 
 function getFriendData(inviteId) {
   return new Promise((resolve) => {
-    $.post(taskPostUrl('nian_getHomeData', {"inviteId": inviteId},'nian_getHomeData'), async (err, resp, data) => {
+    $.post(taskPostUrl('nian_getHomeData', {"inviteId": inviteId}), async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
