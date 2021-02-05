@@ -119,7 +119,6 @@ const openUrl = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%
 
 async function jdNian() {
   try {
-    //await  helpFriends() 
     $.full = false
     await getHomeData()
     if (!$.secretp) return
@@ -430,15 +429,34 @@ function collectProduceScore(taskId = "collectProducedCoin") {
   })
 }
 
-function collectFriend(pinColor){ 
+function doFriend(iniviteId){ 
     
-    let body = {
-    "mpin":pinColor,
-    "businessCode":"20122",
-    "assistType":"2"
-    }
-    return new Promise(resolve => {
-    $.post(taskPostUrl("collectFriendRecordColor", body, "collectFriendRecordColor"), async (err, resp, data) => {
+  let temp = {
+    "inviteId": iniviteId,
+    "rnd": getRnd(),
+    "inviteId": "-1",
+    "stealId": "-1"
+  }
+  if (itemId) temp['itemId'] = itemId
+  if (actionType) temp['actionType'] = actionType
+  if (inviteId) temp['inviteId'] = inviteId
+  if (shopSign) temp['shopSign'] = shopSign
+  const extraData = {
+    "jj": 6,
+    "buttonid": "jmdd-react-smash_0",
+    "sceneid": "homePageh5",
+    "appid": '50073'
+  }
+  let body = {
+    ...encode(temp, $.secretp, extraData),
+    taskId: taskId,
+    itemId: itemId
+  }
+  if (actionType) body['actionType'] = actionType
+  if (inviteId) body['inviteId'] = inviteId
+  if (shopSign) body['shopSign'] = shopSign
+  return new Promise(resolve => {
+    $.post(taskPostUrl("nian_doAdditionalTask", body, "nian_doAdditionalTask"), async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -446,31 +464,24 @@ function collectFriend(pinColor){
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
-            console.log(`请求详情：${JSON.stringify(data)}`)
-             await helpFriends() 
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve();
-      }
-    })
-  })
-}
-
-function getPinColor(){
-    return new Promise(resolve => {
-    $.post(taskPostUrl("getEncryptedPinColor", {}, "getEncryptedPinColor"), async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          if (safeGet(data)) {
-            data = JSON.parse(data);
-            collectFriend(data.result);
-            console.log(`助力详情：${JSON.stringify(data)}`)
+            if (data.code === 0) {
+              if (data.data && data.data.bizCode === 0) {
+                if (data.data.result.score)
+                  console.log(`任务完成，获得${data.data.result.score}积分`)
+                else if (data.data.result.maxAssistTimes) {
+                  console.log(`助力好友成功`)
+                } else {
+                  console.log(`任务上报成功`)
+                  await $.wait(10 * 1000)
+                  if (data.data.result.taskToken) {
+                    await doTask2(data.data.result.taskToken)
+                  }
+                }
+                // $.userInfo = data.data.result.userInfo;
+              } else {
+                console.log(data.data.bizMsg)
+              }
+            }
           }
         }
       } catch (e) {
