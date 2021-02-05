@@ -139,7 +139,7 @@ async function jdNian() {
     //   await helpFriendsPK()
     // }
     if($.full) { 
-      // await helpFriends()    
+       await helpFriends()    
        return
     }
     await $.wait(2000)
@@ -653,7 +653,7 @@ function getTaskList(body = {}) {
 
 function getFriendData(inviteId) {
   return new Promise((resolve) => {
-    $.post(taskPostUrl('nian_getHomeData', {"inviteId": inviteId}), async (err, resp, data) => {
+    $.post(taskPostUrl('nian_getHomeData', {"inviteId": inviteId},'nian_getHomeData'), async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -662,7 +662,8 @@ function getFriendData(inviteId) {
           data = JSON.parse(data);
           if (data.data && data.data['bizCode'] === 0) {
             $.itemId = data.data.result.homeMainInfo.guestInfo.itemId
-            await collectScore('2', $.itemId, null, inviteId)
+            console.log(`返回：${data}`)
+           //await collectScore('2', $.itemId, null, inviteId)
           }
         }
       } catch (e) {
