@@ -662,7 +662,7 @@ function getFriendData(inviteId) {
           data = JSON.parse(data);
           if (data.data && data.data['bizCode'] === 0) {
             $.itemId = data.data.result.homeMainInfo.guestInfo.itemId
-            console.log(`返回：${data}`)
+            console.log(`返回：${JSON.stringify(data)}`)
            //await collectScore('2', $.itemId, null, inviteId)
           }
         }
