@@ -119,7 +119,7 @@ const openUrl = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%
 
 async function jdNian() {
   try {
-    await  helpFriends() 
+    //await  helpFriends() 
     $.full = false
     await getHomeData()
     if (!$.secretp) return
@@ -140,7 +140,7 @@ async function jdNian() {
     //   await helpFriendsPK()
     // }
     if($.full) { 
-     //await  getPinColor();    
+       await  helpFriends() 
        return
     }
     await $.wait(2000)
@@ -716,7 +716,8 @@ function getFriendData(inviteId) {
           if (data.data && data.data['bizCode'] === 0) {
             $.itemId = data.data.result.homeMainInfo.guestInfo.itemId
             console.log(`返回：${JSON.stringify(data)}`)
-           //await collectScore('2', $.itemId, null, inviteId)
+            if(data.data.result.homeMainInfo.guestInfo.status === 0)
+           await collectScore(data.data.result.homeMainInfo.guestInfo.taskId, $.itemId, null, inviteId)
           }
         }
       } catch (e) {
