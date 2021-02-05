@@ -139,7 +139,7 @@ async function jdNian() {
     //   await helpFriendsPK()
     // }
     if($.full) { 
-       await helpFriends()    
+     await  getPinColor();    
        return
     }
     await $.wait(2000)
@@ -429,6 +429,58 @@ function collectProduceScore(taskId = "collectProducedCoin") {
   })
 }
 
+function collectFriend(pinColor){ 
+    
+    let body = {
+    "mpin":pinColor,
+    "businessCode":"20122",
+    "assistType":"2"
+    }
+    return new Promise(resolve => {
+    $.post(taskPostUrl("collectFriendRecordColor", body, "collectFriendRecordColor"), async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          if (safeGet(data)) {
+            data = JSON.parse(data);
+            console.log(`请求详情：${JSON.stringify(data)}`)
+             await helpFriends() 
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve();
+      }
+    })
+  })
+}
+
+function getPinColor(){
+    return new Promise(resolve => {
+    $.post(taskPostUrl("getEncryptedPinColor", {}, "getEncryptedPinColor"), async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          if (safeGet(data)) {
+            data = JSON.parse(data);
+            collectFriend(data.result);
+            console.log(`助力详情：${JSON.stringify(data)}`)
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve();
+      }
+    })
+  })
+}
+
 function collectScore(taskId, itemId, actionType = null, inviteId = null, shopSign = null) {
   let temp = {
     "taskId": taskId,
@@ -653,7 +705,7 @@ function getTaskList(body = {}) {
 
 function getFriendData(inviteId) {
   return new Promise((resolve) => {
-    $.post(taskPostUrl('nian_getHomeData', {"inviteId": inviteId}), async (err, resp, data) => {
+    $.post(taskPostUrl('nian_getHomeData', {"inviteId": inviteId},'nian_getHomeData'), async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -1455,9 +1507,10 @@ function taskPostUrl(function_id, body = {}, function_id2) {
     url,
     body: `functionId=${function_id}&body=${escape(JSON.stringify(body))}&client=wh5&clientVersion=1.0.0`,
     headers: {
+      "Accept": "application/json,text/plain, */*",
       "Cookie": cookie,
       "origin": "https://wbbny.m.jd.com",
-      "referer": "https://wbbny.m.jd.com/babelDiy/Zeus/2cKMj86srRdhgWcKonfExzK4ZMBy/index.html",
+      "referer": "https://wbbny.m.jd.com/babelDiy/Zeus/2cKMj86srRdhgWcKonfExzK4ZMBy/index.html?shareType=homeKoi&inviteId=cAxZdTXtIune6gefWVT_7RS1WOgLiut0WnJwLDjV4C-odO-W7d0kmeTthDA&mpin=RnFgyjJcajTcztRP--txDsbom3TWLQodUTA4&lng=108.844219&lat=34.223336&sid=21b1420111970c212ebdd898de08055w&un_area=27_2376_4343_53950",
       'Content-Type': 'application/x-www-form-urlencoded',
       "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0")
     }
