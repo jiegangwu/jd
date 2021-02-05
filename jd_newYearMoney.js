@@ -27,7 +27,7 @@ const $ = new Env('京东压岁钱');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
+let jdNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 const randomCount = $.isNode() ? 20 : 5;
 
 //IOS等用户直接用NobyDa的jd cookie
@@ -48,10 +48,6 @@ if ($.isNode()) {
   cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-const inviteCodes = [
-  `oMZeXLUa89gFB7MxNrRzrueku1ztEEnWTbbYS9ouZsWHUK40@oMZeXeZJqdhfAeAyNrd2re3zVX3zUxALxgPuDlVwKASrEJRm@oMZeGJ8Q3ssja5hkb88ysz1myVkiBAsZmXvm21tn0f79FMQ@oMZeXe9Kod0DCrE5M7Z1qcr4t7hsbJF9IrJMcAWup9BZyXgL@oMZeX-dNqIwDUbdiNLhy_et64XAJ-lwyzdJkpU5uu5x9qVco`,
-  `oMZeXLUa89gFB7MxNrRzrueku1ztEEnWTbbYS9ouZsWHUK40@oMZeXeZJqdhfAeAyNrd2re3zVX3zUxALxgPuDlVwKASrEJRm@oMZeGJ8Q3ssja5hkb88ysz1myVkiBAsZmXvm21tn0f79FMQ@oMZeXe9Kod0DCrE5M7Z1qcr4t7hsbJF9IrJMcAWup9BZyXgL@oMZeX-dNqIwDUbdiNLhy_et64XAJ-lwyzdJkpU5uu5x9qVco`,
-];
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -137,8 +133,11 @@ async function receiveCards() {
 function showMsg() {
   return new Promise(resolve => {
     if (!$.risk) message += `本次运行获得${Math.round($.red * 100) / 100}红包，共计红包${$.total}`
-    if (!jdNotify) {
+    //if($.total > 10)
+    //await notify.sendNotify(`${$.name}`, `${message} 可以去微信提现了！`);
+    if (!jdNotify && $.total > 10) {
       $.msg($.name, '', `${message}`);
+      if ($.isNode()) notify.sendNotify(`${$.name} - ${$.index} - ${$.nickName}`, `总共${$.total}红包，过晚12点限量微信提现！`);
     } else {
       $.log(`京东账号${$.index}${$.nickName}\n${message}`);
     }
@@ -152,7 +151,7 @@ async function helpFriends() {
     if (!code) continue
     await helpFriend(code)
     if (!$.canHelp) return
-    await $.wait(4000)
+    await $.wait(5000)
   }
 }
 
@@ -422,12 +421,6 @@ function shareCodesFormat() {
       $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
     } else {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
-      const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
-    }
-    const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
     }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
