@@ -35,13 +35,7 @@ if ($.isNode()) {
   })
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
 } else {
-  let cookiesData = $.getdata('CookiesJD') || "[]";
-  cookiesData = jsonParse(cookiesData);
-  cookiesArr = cookiesData.map(item => item.cookie);
-  cookiesArr.reverse();
-  cookiesArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);
-  cookiesArr.reverse();
-  cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
+  cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 $.newShareCodes = [`P04z54XCjVUnIaW5m9cZ2er2HxIkKN38X1bbZA`,'P04z54XCjVUnIaW5m9cZ2bxjHkckaA_bQma8ck','P04z54XCjVUnIaW5m9cZ2ar2XxDw__jQl9XZXw','P04z54XCjVUnIaW5jQACmD61HpClXuEbKc'];

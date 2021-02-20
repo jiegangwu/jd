@@ -35,13 +35,7 @@ if ($.isNode()) {
   })
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
 } else {
-  let cookiesData = $.getdata('CookiesJD') || "[]";
-  cookiesData = jsonParse(cookiesData);
-  cookiesArr = cookiesData.map(item => item.cookie);
-  cookiesArr.reverse();
-  cookiesArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);
-  cookiesArr.reverse();
-  cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
+  cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const inviteCodes = [`P04z54XCjVUm4aW5m9cZ2er2HxIkOshWiJ1iAI@P04z54XCjVUm4aW5m9cZ2bxjHkckSv0N6nhPwU@P04z54XCjVUm4aW5m9cZ2ar2XxDw9XL0SMF5Dc@P04z54XCjVUm4aW5jQACmD61HpClT0k8Y0@P04z54XCjVUm4aW5m9cZ2au33VDkHitOPGZoO8`];

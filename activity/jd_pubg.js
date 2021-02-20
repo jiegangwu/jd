@@ -131,13 +131,7 @@ if ($.isNode()) {
   })
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
 } else {
-  let cookiesData = $.getdata('CookiesJD') || "[]";
-  cookiesData = jsonParse(cookiesData);
-  cookiesArr = cookiesData.map(item => item.cookie);
-  cookiesArr.reverse();
-  cookiesArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);
-  cookiesArr.reverse();
-  cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
+  cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 const JD_API_HOST = 'https://starsingle.m.jd.com/guardianstar/';
 const inviteCodes = ['51eba2fb-0495-447e-974e-f0110e95ae5f@6b94bcef-3d32-45cb-a093-d75118b97efd@c44646bb-b9cf-4227-96ea-a495b9baa61d@8efc86e2-0e86-4f07-a888-9526151e5a0f@0c75b72a-5c3a-4cdf-a5df-7e6827ca930e']
