@@ -596,7 +596,7 @@ function requireConfig() {
   return new Promise(resolve => {
     console.log('开始获取配置文件\n')
     let shareCodes = []
-    console.log(`共${cookiesArr.length}个京东账号\n`);
+    console.log(`共${cookieArr.length}个京东账号\n`);
     if ($.isNode() && process.env.JDCFD_SHARECODES) {
       if (process.env.JDCFD_SHARECODES.indexOf('\n') > -1) {
         shareCodes = process.env.JDCFD_SHARECODES.split('\n');
