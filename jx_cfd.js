@@ -87,7 +87,8 @@ $.info = {};
       //await createSuperAssistUser();
       //普通助力
       await $.wait(500);
-      await createAssistUser();
+      //await createAssistUser();
+      await helpFriends();
     }
   }
   await $.wait(500);
@@ -659,6 +660,32 @@ function createSuperAssistUser() {
   });
 }
 
+function helpFriend(code){
+  return new Promise(resolve => {
+    const sceneIds = Object.keys($.info.SceneList);
+    const sceneId = Math.min(...sceneIds);
+         $.get(taskUrl('user/JoinScene', `strShareId=${escape(code)}&dwSceneId=${sceneId}`), async (err, resp, data) => {
+           try {
+             const { sErrMsg, data: { rewardMoney = 0 } = {} } = JSON.parse(data);
+             $.log(`\n【👬普通助力】助力：${sErrMsg}\n${$.showLog ? data : ''}`);
+           } catch (e) {
+             $.logErr(e, resp);
+           } finally {
+             resolve();
+           }
+         });
+  });
+}
+
+function helpFriends(){
+     for (let code of $.newShareCodes) {
+         if (!code) continue
+         helpFriend(code);
+         await $.wait(2000);
+    }
+}
+
+
 //随机助力好友
 function createAssistUser() {
   return new Promise(resolve => {
@@ -676,7 +703,6 @@ function createAssistUser() {
              resolve();
            }
          });
-         await $.wait(2000);
         }
   });
 }
