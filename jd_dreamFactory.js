@@ -88,7 +88,7 @@ if ($.isNode()) {
         continue
       }
       await jdDreamFactory()
-      if (helpAu === true) await helpAuthor();
+     // if (helpAu === true) await helpAuthor();
     }
   }
   for (let i = 0; i < cookiesArr.length; i++) {
