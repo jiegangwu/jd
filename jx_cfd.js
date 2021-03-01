@@ -666,7 +666,6 @@ function createAssistUser() {
     const sceneId = Math.min(...sceneIds);
        for (let code of $.newShareCodes) {
          if (!code) continue
-         await $.wait(2000)
          $.get(taskUrl('user/JoinScene', `strShareId=${escape(code)}&dwSceneId=${sceneId}`), async (err, resp, data) => {
            try {
              const { sErrMsg, data: { rewardMoney = 0 } = {} } = JSON.parse(data);
@@ -677,6 +676,7 @@ function createAssistUser() {
              resolve();
            }
          });
+         await $.wait(2000);
         }
   });
 }
