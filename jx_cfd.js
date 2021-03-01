@@ -677,7 +677,7 @@ function helpFriend(code){
   });
 }
 
-function helpFriends(){
+async function helpFriends(){
      for (let code of $.newShareCodes) {
          if (!code) continue
          helpFriend(code);
