@@ -1,6 +1,13 @@
 /**
 *
     Name: 京喜财富岛
+
+    Author: MoPoQAQ
+    Update: 2021/2/2 13:00
+    Thanks:
+      whyour大佬
+      TG: https://t.me/joinchat/O1WgnBbM18YjQQVFQ_D86w
+      GitHub: https://github.com/whyour
 *
 **/
 
