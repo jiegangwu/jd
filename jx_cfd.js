@@ -8,6 +8,7 @@
       whyour大佬
       TG: https://t.me/joinchat/O1WgnBbM18YjQQVFQ_D86w
       GitHub: https://github.com/whyour
+      修改自用去掉Token请求
 *
 **/
 
