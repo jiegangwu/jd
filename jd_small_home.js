@@ -851,7 +851,7 @@ function taskPostUrl(url) {
   }
 }
 function sortByjdBeanNum(a, b) {
-  return b['jdBeanNum'] - a['jdBeanNum'];
+  return a['jdBeanNum'] - b['jdBeanNum'];
 }
 function TotalBean() {
   return new Promise(async resolve => {
@@ -880,7 +880,11 @@ function TotalBean() {
               $.isLogin = false; //cookie过期
               return
             }
-            $.nickName = data['base'].nickname;
+            if (data['retcode'] === 0) {
+              $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
+            } else {
+              $.nickName = $.UserName
+            }
           }
         }
       } catch (e) {

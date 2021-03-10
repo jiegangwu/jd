@@ -47,14 +47,14 @@ fi
 
 
 
-echo "第3步判断是否配置了随即延迟参数..."
+echo "第3步判断是否配置了随机延迟参数..."
 if [ $RANDOM_DELAY_MAX ]; then
     if [ $RANDOM_DELAY_MAX -ge 1 ]; then
         echo "已设置随机延迟为 $RANDOM_DELAY_MAX , 设置延迟任务中..."
         sed -i "/\(jd_bean_sign.js\|jd_blueCoin.js\|jd_joy_reward.js\|jd_joy_steal.js\|jd_joy_feedPets.js\|jd_car_exchange.js\)/!s/node/sleep \$((RANDOM % \$RANDOM_DELAY_MAX)); node/g" $mergedListFile
     fi
 else
-    echo "未配置随即延迟对应的环境变量，故不设置延迟任务..."
+    echo "未配置随机延迟对应的环境变量，故不设置延迟任务..."
 fi
 
 echo "第4步判断是否配置自定义shell执行脚本..."
@@ -97,65 +97,43 @@ echo "第6步设定下次运行docker_entrypoint.sh时间..."
 echo "删除原有docker_entrypoint.sh任务"
 sed -ie '/'docker_entrypoint.sh'/d' ${mergedListFile}
 
-
-current_min=$(date +%-M)
-current_h=$(date +%-H)
-
-echo "当前分钟:${current_min}"
-echo "当前小时:${current_h}"
-
-
-remainder_h=`expr $current_h % 8` || echo
-
-
-case ${remainder_h} in
-    0)  run_hour="0,8,16"
-    ;;
-    1)  run_hour="1,9,17"
-    ;;
-    2)  run_hour="2,10,18"
-    ;;
-    3)  run_hour="3,11,19"
-    ;;
-    4)  run_hour="4,12,20"
-    ;;
-    5)  run_hour="5,13,21"
-    ;;
-    6)  run_hour="6,14,22"
-    ;;
-    7)  run_hour="7,15,23"
-    ;;
-
-esac
-
-
-
-#当前分钟大于1，则随机一个小于当前分钟的，否则随机一个大于30分
-if [ $current_min -ge 1 ]; then
-    random_min=$(($RANDOM % $current_min))
+# 12:00前生成12:00后的cron，12:00后生成第二天12:00前的cron，一天只更新两次代码
+if [ $(date +%-H) -lt 12 ]; then
+    random_h=$(($RANDOM % 12 + 12))
 else
-    random_min=$(($RANDOM % 30+30))
+    random_h=$(($RANDOM % 12))
 fi
+random_m=$(($RANDOM % 60))
 
 echo "设定 docker_entrypoint.sh cron为："
-echo ""${random_min}" "${run_hour}" * * * docker_entrypoint.sh >> /scripts/logs/default_task.log 2>&1"
+echo -e "\n# 必须要的默认定时任务请勿删除" >> $mergedListFile
+echo -e "${random_m} ${random_h} * * * docker_entrypoint.sh >> /scripts/logs/default_task.log 2>&1" | tee -a $mergedListFile
 
 
-echo -e >>$mergedListFile
-echo "#必须要的默认定时任务请勿删除" >> ${mergedListFile}
-echo ""${random_min}" "${run_hour}" * * * docker_entrypoint.sh >> /scripts/logs/default_task.log 2>&1" >> ${mergedListFile}
+echo "第7步 自动助力"
+if [ $ENABLE_AUTO_HELP = "true" ]; then
+    echo "开启自动助力"
+    
+    #在所有脚本执行前，先执行助力码导出
+    sed -i 's/node/ . \/scripts\/docker\/auto_help.sh export \&\& node /g' ${mergedListFile}
+else
+    echo "未开启自动助力"
+fi
 
 
-
-
-echo "第7步增加 |ts 任务日志输出时间戳..."
+echo "第8步增加 |ts 任务日志输出时间戳..."
 sed -i "/\( ts\| |ts\|| ts\)/!s/>>/\|ts >>/g" $mergedListFile
 
-echo "第8步执行proc_file.sh脚本任务..."
+echo "第9步执行proc_file.sh脚本任务..."
 sh -x /scripts/docker/proc_file.sh
 
-echo "第9步加载最新的定时任务文件..."
+echo "第10步加载最新的定时任务文件..."
 crontab $mergedListFile
 
-echo "第10步将仓库的docker_entrypoint.sh脚本更新至系统/usr/local/bin/docker_entrypoint.sh内..."
+echo "第11步将仓库的docker_entrypoint.sh脚本更新至系统/usr/local/bin/docker_entrypoint.sh内..."
 cat /scripts/docker/docker_entrypoint.sh >/usr/local/bin/docker_entrypoint.sh
+
+echo "发送通知"
+export NOTIFY_CONTENT="2021-02-21更新 https://gitee.com/lxk0301/jd_scripts仓库被迫私有，需重新更新一下镜像：https://hub.docker.com/r/lxk0301/jd_scripts，(注：国内第三方镜像目前可能不是最新请使用hub.docker.com镜像，docker-compose.yml的REPO_URL记得修改)后续可同步更新jd_script仓库最新脚本"
+cd /scripts/docker
+node notify_docker_user.js
