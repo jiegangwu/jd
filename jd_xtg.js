@@ -49,7 +49,7 @@ if ($.isNode()) {
   ].filter((item) => !!item);
 }
 const starID = ["sanxing", "meizu", "xiaomi", "oppo", "vivo", "sony"];
-const shareID = [];
+const shareID = [""];
 $.allShareId = {};
 const JD_API_HOST = "https://urvsaggpt.m.jd.com/guardianstar";
 !(async () => {
