@@ -49,7 +49,14 @@ if ($.isNode()) {
   ].filter((item) => !!item);
 }
 const starID = ["sanxing", "meizu", "xiaomi", "oppo", "vivo", "sony"];
-const shareID = [""];
+const shareID = [
+  "39440572-136a-4b38-bc13-f767d07406fb",
+  "796a8a5e-ef50-4501-a6a6-b7717de022ae",
+  "2bc87513-9344-453c-8733-a106bcbbb6a7",
+  "f18b535a-d9c0-48c7-9a15-16f674065b64",
+  "a778e308-858d-4039-a4f0-15aafbb83181",
+  "45f97217-e150-4dc9-baed-054a4e07ae02",
+];
 $.allShareId = {};
 const JD_API_HOST = "https://urvsaggpt.m.jd.com/guardianstar";
 !(async () => {
@@ -73,6 +80,7 @@ const JD_API_HOST = "https://urvsaggpt.m.jd.com/guardianstar";
       $.jdNum = 0;
       $.isLogin = true;
       $.nickName = "";
+      $.shareID = [];
       await TotalBean();
       console.log(
           `\n===============开始【京东账号${$.index}】${
@@ -124,11 +132,18 @@ const JD_API_HOST = "https://urvsaggpt.m.jd.com/guardianstar";
   for (let v = 0; v < cookiesArr.length; v++) {
     cookie = cookiesArr[v];
     console.log(`自己账号内部互助\n\n`);
-    console.log(`如有剩下的机会，助力作者\n\n`);
-    for (let index = 0; index < starID.length; index++) {
-      $.activeId = starID[index];
-      await doSupport(shareID[index]);
+    for (let item of Object.keys($.allShareId)) {
+      for (let index = 0; index < starID.length; index++) {
+        $.activeId = starID[index];
+        console.log(`账号${v + 1}去助力 账号${Number(item) + 1} 的${$.activeId}活动的邀请码${$.allShareId[item][index]}\n`)
+        await doSupport($.allShareId[item][index]);
+      }
     }
+    console.log(`如有剩下的机会，助力作者\n\n`);
+    //for (let index = 0; index < starID.length; index++) {
+    //  $.activeId = starID[index];
+    //  await doSupport(shareID[index]);
+   // }
   }
 })()
     .catch((e) => {
