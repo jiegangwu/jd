@@ -50,12 +50,12 @@ if ($.isNode()) {
 }
 const starID = ["sanxing", "meizu", "xiaomi", "oppo", "vivo", "sony"];
 const shareID = [
-  "39440572-136a-4b38-bc13-f767d07406fb",
-  "796a8a5e-ef50-4501-a6a6-b7717de022ae",
-  "2bc87513-9344-453c-8733-a106bcbbb6a7",
-  "f18b535a-d9c0-48c7-9a15-16f674065b64",
-  "a778e308-858d-4039-a4f0-15aafbb83181",
-  "45f97217-e150-4dc9-baed-054a4e07ae02",
+  "6729595f-e10b-41ad-bd0b-144260fc6d48",
+  "b1d31ab9-cf05-40f6-b769-cff630c4fb7e",
+  "c9c4e0b4-9824-4b4a-aba3-a1876abab4fe",
+  "aa63e985-2085-4bbe-b836-1dcd976e4492",
+  "b848fbbd-122c-4b05-88b9-18047838e6c8",
+  "43422e5e-0bb1-4226-8b2e-93da23f612cd",
 ];
 $.allShareId = {};
 const JD_API_HOST = "https://urvsaggpt.m.jd.com/guardianstar";
@@ -140,10 +140,10 @@ const JD_API_HOST = "https://urvsaggpt.m.jd.com/guardianstar";
       }
     }
     console.log(`如有剩下的机会，助力作者\n\n`);
-    //for (let index = 0; index < starID.length; index++) {
-    //  $.activeId = starID[index];
-    //  await doSupport(shareID[index]);
-   // }
+    for (let index = 0; index < starID.length; index++) {
+      $.activeId = starID[index];
+      await doSupport(shareID[index]);
+    }
   }
 })()
     .catch((e) => {
