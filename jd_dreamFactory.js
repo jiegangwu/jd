@@ -1048,13 +1048,7 @@ function CreateTuan() {
     })
   })
 }
-async function joinLeaderTuan() {
-  if (!$.tuanIdS) await updateTuanIdsCDN('https://gitee.com/jk9527/updateTeam/raw/my_master/jd_updateFactoryTuanId.json');
-  for (let tuanId of $.tuanIdS.tuanIds) {
-    if (!tuanId) continue
-    await JoinTuan(tuanId);
-  }
-}
+
 function JoinTuan(tuanId, stk = '_time,activeId,tuanId') {
   return new Promise((resolve) => {
     const body = `activeId=${escape(tuanActiveId)}&tuanId=${escape(tuanId)}`;
@@ -1202,6 +1196,7 @@ function updateTuanIdsCDN(url = 'https://gitee.com/jk9527/updateTeam/raw/my_mast
         } else {
           if (safeGet(data)) {
             $.tuanIdS = JSON.parse(data);
+             console.log(`去参团id：${JSON.stringify(data)}`);
           }
         }
       } catch (e) {
