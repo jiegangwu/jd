@@ -26,12 +26,12 @@ let bodyList = {
     "body": "body=%7B%22liveId%22%3A%223759184%22%7D"
   },
   "30": {
-    "url": "https://api.m.jd.com/client.action?functionId=liveActivityV842&uuid=8888888&client=apple&clientVersion=9.4.1&undefined",
+    "url": "https://api.m.jd.com/client.action?functionId=liveActivityV946&uuid=8888888&client=apple&clientVersion=9.4.1&undefined",
     "body": "body=%7B%22liveId%22%3A%223761428%22%7D"
   }
 }
 let ids = {
-
+  
 }
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
