@@ -666,7 +666,7 @@ function pushPlusNotify(text, desp) {
         headers: {
           'Content-Type': ' application/json'
         },
-        timeout: 10000
+        timeout: 30000
       }
       $.post(options, (err, resp, data) => {
         try {

@@ -32,5 +32,5 @@ if (process.env.JXNC_SHARECODES) {
 }
 for (let i = 0; i < JxncShareCodes.length; i++) {
   const index = (i + 1 === 1) ? '' : (i + 1);
-  exports['JxncShareCode' + index] = JxncShareCodes[i];
+  exports['JxncShareCodes' + index] = JxncShareCodes[i];
 }
