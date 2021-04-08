@@ -79,6 +79,7 @@ let nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 
       await notify.sendNotify($.name, allMessage);
     }
   }
+  console.log(`开始账号内部互助 赚京豆-瓜分京豆 活动(优先内部账号互助，如有剩余则给作者lxk0301助力)`)
   for (let i = 0; i < cookiesArr.length; i++) {
     $.canHelp = true
     if (cookiesArr[i]) {

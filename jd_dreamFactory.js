@@ -1230,11 +1230,11 @@ function updateTuanIdsCDN(url = 'https://gitee.com/jk9527/updateTeam/raw/my_mast
       } catch (e) {
         $.logErr(e, resp)
       } finally {
-        resolve(data || []);
+        resolve(data);
       }
     })
     await $.wait(20000)
-    resolve([]);
+    resolve();
   })
 }
 
