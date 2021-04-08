@@ -107,11 +107,12 @@ if ($.isNode()) {
       if ($.canHelp) await joinLeaderTuan();//参团
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
       if ((cookiesArr && cookiesArr.length >= ($.tuanNum || 5)) && $.canHelp) {
-        console.log(`\n账号内部相互进团\n`);
+        console.log(`\n账号${$.UserName} 内部相互进团\n`);
         for (let item of $.tuanIds) {
           console.log(`\n${$.UserName} 去参加团 ${item}`);
           if (!$.canHelp) break;
           await JoinTuan(item);
+          await $.wait(1000);
         }
       }
     }
@@ -980,7 +981,9 @@ async function joinLeaderTuan() {
     for (let tuanId of $.tuanIdS.tuanIds) {
       if (!tuanId) continue
       if (!$.canHelp) break;
+      console.log(`\n账号${$.UserName} 参加作者lxk0301的团 【${tuanId}】`);
       await JoinTuan(tuanId);
+      await $.wait(1000);
     }
   }
 }
