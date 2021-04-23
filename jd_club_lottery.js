@@ -93,7 +93,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
     $.canHelp = true;
     if ($.canHelp && $.activityId) {
       $.assigFirends = $.assigFirends.concat({
-        "encryptAssignmentId": "2mPXah3aWb3Q86kkaCMhey6sNYR4",
+        "encryptAssignmentId": $.assigFirends[0] && $.assigFirends[0]['encryptAssignmentId'],
         "assignmentType": 2,
         "itemId": "SZm_olqSxIOtH97BATGmKoWraLaw",
       })
@@ -515,8 +515,8 @@ function superBrandMainPage() {
             data = JSON.parse(data);
             if (data['code'] === '0') {
               if (data['data']['bizCode'] === '0') {
-                superShakeBeanConfig['superShakeUlr'] = jump.params.url;
-                console.log(`【超级摇一摇】活动链接：${superShakeBeanConfig['superShakeUlr']}`);
+                //superShakeBeanConfig['superShakeUlr'] = jump.params.url;
+                //console.log(`【超级摇一摇】活动链接：${superShakeBeanConfig['superShakeUlr']}`);
 
                 $.activityId = data['data']['result']['activityBaseInfo']['activityId'];
                 $.encryptProjectId = data['data']['result']['activityBaseInfo']['encryptProjectId'];
