@@ -1,38 +1,32 @@
 /*
-超级直播间红包雨
-下一场超级直播间时间:04月28日  20:00，直播间地址：https://h5.m.jd.com/dev/3pbY8ZuCx4ML99uttZKLHC2QcAMn/live.html?id=3932303
-下一场超级直播间时间:04月23日  20:00，直播间地址：https://h5.m.jd.com/dev/3pbY8ZuCx4ML99uttZKLHC2QcAMn/live.html?id=3934999
-脚本兼容: Quantumult X, Surge, Loon, JSBox, Node.js
-==============Quantumult X==============
-[task_local]
-#超级直播间红包雨
-0,30,31 20-23/1 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_live_redrain.js, tag=超级直播间红包雨, enabled=true
-
-==============Loon==============
-[Script]
-cron "0,30,31 20-23/1 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_live_redrain.js,tag=超级直播间红包雨
-
-================Surge===============
-超级直播间红包雨 = type=cron,cronexp="0,30,31 20-23/1 * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_live_redrain.js
-
-===============小火箭==========
-超级直播间红包雨 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_live_redrain.js, cronexpr="0,30,31 20-23/1 * * *", timeout=3600, enable=true
+只能用一天。需每天寻找直播抓包
+1 8-23 * * * lxk0301_live_redrain.js
 */
-const $ = new Env('超级直播间红包雨');
-let allMessage = '', id = 'RRA4RhWMc159kA62qLbaEa88evE7owb';
+const $ = new Env('整点京豆雨');
+let allMessage = '';
 let bodyList = {
-  "23": {
-    "url": "https://api.m.jd.com/client.action?functionId=liveActivityV946&uuid=8888888&client=apple&clientVersion=9.4.1&st=1618812729053&sign=c083fc8440496d9ed52007210a70b481&sv=100",
-    "body": "body=%7B%22liveId%22%3A%223934999%22%7D"
-  },
-  "28": {
-    "url": "https://api.m.jd.com/client.action?functionId=liveActivityV946&uuid=8888888&client=apple&clientVersion=9.4.1&st=1618812726015&sign=5d3a62a61aeaba5acdb0e7a4f375227e&sv=112",
-    "body": "body=%7B%22liveId%22%3A%223932303%22%7D"
+  '20': {
+    url: 'https://api.m.jd.com/client.action?functionId=liveActivityV842&uuid=8888888&client=apple&clientVersion=9.4.4&st=1616204859304&sign=a52a5ba5b42a43ce8d81e0014ba04859&sv=121',
+    body: 'body=%7B%22liveId%22%3A%223689733%22%7D'
   }
 }
-let ids = {}
-for (let i = 0; i < 24; i++) {
-  ids[i] = id;
+let ids = {
+  '8': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK',
+  '9': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK',
+  '10': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK',
+  '11': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK',
+  '12': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK',
+  '13': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK',
+  '14': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK',
+  '15': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK',
+  '16': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK',
+  '17': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK',
+  '18': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK',
+  '19': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK',
+  '20': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK',
+  '21': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK',
+  '22': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK',
+  '23': 'RRA2v2Lh5mtxYnC4j6VHrjoaDz7crQK'
 }
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -45,8 +39,8 @@ if ($.isNode()) {
   })
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {
   };
-  if(JSON.stringify(process.env).indexOf('GITHUB')>-1) process.exit(0)
-}else {
+  if (JSON.stringify(process.env).indexOf('GITHUB') > -1) process.exit(0)
+} else {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 const JD_API_HOST = 'https://api.m.jd.com/api';
@@ -55,25 +49,22 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
   }
-  console.log('下一场超级直播间时间:04月28日  20:00，直播间地址：https://h5.m.jd.com/dev/3pbY8ZuCx4ML99uttZKLHC2QcAMn/live.html?id=3932303\n' +
-      '下一场超级直播间时间:04月23日  20:00，直播间地址：https://h5.m.jd.com/dev/3pbY8ZuCx4ML99uttZKLHC2QcAMn/live.html?id=3934999')
   await getRedRain();
 
   let nowTs = new Date().getTime()
-  if (!($.st <= nowTs && nowTs < $.ed)) {
-    $.log(`\n远程红包雨配置获取错误，从本地读取配置`)
-    let hour = (new Date().getUTCHours() + 8) %24
-    if (ids[hour]){
-      $.activityId = ids[hour]
-      $.log(`本地红包雨配置获取成功`)
-    } else{
-      $.log(`无法从本地读取配置，请检查运行时间(注：非红包雨时间执行出现此提示请忽略！！！！！！！！！！！)`)
-      $.log(`非红包雨期间出现上面提示请忽略。红包雨期间会正常，此脚本提issue打死！！！！！！！！！！！)`)
-      return
-    }
-  } else{
-    $.log(`远程红包雨配置获取成功`)
+  // if (!($.st <= nowTs && nowTs < $.ed)) {
+  $.log(`远程红包雨配置获取错误，从本地读取配置`)
+  let hour = (new Date().getUTCHours() + 8) % 24
+  if (ids[hour]) {
+    $.activityId = ids[hour]
+    $.log(`本地红包雨配置获取成功`)
+  } else {
+    $.log(`无法从本地读取配置，请检查运行时间`)
+    return
   }
+  // } else{
+  //   $.log(`远程红包雨配置获取成功`)
+  // }
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -93,22 +84,22 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
         continue
       }
       let nowTs = new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000
-      // console.log(nowTs, $.startTime, $.endTime)
+      console.log(nowTs, $.startTime, $.endTime, cookie)
       await receiveRedRain();
       // await showMsg();
     }
   }
   if (allMessage) {
-    //if ($.isNode()) await notify.sendNotify(`${$.name}`, `${allMessage}`);
+    if ($.isNode()) await notify.sendNotify(`${$.name}`, `${allMessage}`);
     $.msg($.name, '', allMessage);
   }
 })()
-  .catch((e) => {
-    $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
-  })
-  .finally(() => {
-    $.done();
-  })
+    .catch((e) => {
+      $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
+    })
+    .finally(() => {
+      $.done();
+    })
 
 function showMsg() {
   return new Promise(resolve => {
@@ -119,9 +110,9 @@ function showMsg() {
 
 function getRedRain() {
   let body
-  if(bodyList.hasOwnProperty(new Date().getDate())) {
+  if (bodyList.hasOwnProperty(new Date().getDate())) {
     body = bodyList[new Date().getDate()]
-  }else{
+  } else {
     return
   }
   return new Promise(resolve => {
@@ -134,9 +125,9 @@ function getRedRain() {
           if (safeGet(data)) {
             data = JSON.parse(data);
             if (data.data && data.data.iconArea) {
-              console.log(data.data.iconArea.filter(vo=>vo['type']==='anchor_darw_lottery').length &&
-                data.data.iconArea.filter(vo=>vo['type']==='anchor_darw_lottery')[0].data.lotteryId)
-              let act = data.data.iconArea.filter(vo=>vo['type']==="platform_red_packege_rain")[0]
+              console.log(data.data.iconArea.filter(vo => vo['type'] === 'anchor_darw_lottery').length &&
+                  data.data.iconArea.filter(vo => vo['type'] === 'anchor_darw_lottery')[0].data.lotteryId)
+              let act = data.data.iconArea.filter(vo => vo['type'] === "platform_red_packege_rain")[0]
               if (act) {
                 let url = act.data.activityUrl
                 $.activityId = url.substr(url.indexOf("id=") + 3)
@@ -195,10 +186,11 @@ function receiveRedRain() {
     })
   })
 }
+
 function taskGetUrl(url, body) {
   return {
     url: url,
-    body:body,
+    body: body,
     headers: {
       "Accept": "*/*",
       "Accept-Encoding": "gzip, deflate, br",
@@ -208,7 +200,7 @@ function taskGetUrl(url, body) {
       "Host": "api.m.jd.com",
       "Referer": `https://h5.m.jd.com/active/redrain/index.html?id=${$.activityId}&lng=0.000000&lat=0.000000&sid=&un_area=`,
       "Cookie": cookie,
-      "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
+      "User-Agent": "JD4iPhone/9.3.5 CFNetwork/1209 Darwin/20.2.0"
     }
   }
 }
@@ -240,7 +232,7 @@ function taskUrl(function_id, body = {}) {
       "Host": "api.m.jd.com",
       "Referer": `https://h5.m.jd.com/active/redrain/index.html?id=${$.activityId}&lng=0.000000&lat=0.000000&sid=&un_area=`,
       "Cookie": cookie,
-      "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
+      "User-Agent": "JD4iPhone/9.3.5 CFNetwork/1209 Darwin/20.2.0"
     }
   }
 }
@@ -257,7 +249,7 @@ function TotalBean() {
         "Connection": "keep-alive",
         "Cookie": cookie,
         "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : "JD4iPhone/9.3.5 CFNetwork/1209 Darwin/20.2.0") : ($.getdata('JDUA') ? $.getdata('JDUA') : "JD4iPhone/9.3.5 CFNetwork/1209 Darwin/20.2.0")
       }
     }
     $.post(options, (err, resp, data) => {
