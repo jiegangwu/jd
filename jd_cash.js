@@ -85,13 +85,13 @@ async function jdCash() {
   await getReward()
   await getReward('2');
   $.exchangeBeanNum = 0;
-  console.log(`\n\n开始花费2元红包兑换200京豆，一周可换四次`)
-  for (let i = 0; i < 4; i++) {
-    await exchange2();//兑换200京豆(2元红包换200京豆，一周四次。)
-  }
-  if ($.exchangeBeanNum) {
-    message += `兑换京豆成功，获得${$.exchangeBeanNum}京豆\n`;
-  }
+//  console.log(`\n\n开始花费2元红包兑换200京豆，一周可换四次`)
+//  for (let i = 0; i < 4; i++) {
+//    await exchange2();//兑换200京豆(2元红包换200京豆，一周四次。)
+//  }
+//  if ($.exchangeBeanNum) {
+//    message += `兑换京豆成功，获得${$.exchangeBeanNum}京豆\n`;
+//  }
   await index(true)
   // await showMsg()
 }
