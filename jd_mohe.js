@@ -36,7 +36,7 @@ if ($.isNode()) {
 }
 
 const JD_API_HOST = 'https://isp5g.m.jd.com';
-//邀请码一天一变化，已确定
+//邀请码可能一天一变化
 $.shareId = [];
 !(async () => {
   if (!cookiesArr[0]) {
