@@ -99,7 +99,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
     }
   }
   if (allMessage) {
-    if ($.isNode()) await notify.sendNotify(`${$.name}`, `${allMessage}`);
+    //if ($.isNode()) await notify.sendNotify(`${$.name}`, `${allMessage}`);
     $.msg($.name, '', allMessage);
   }
 })()
