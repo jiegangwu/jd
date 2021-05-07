@@ -178,9 +178,11 @@ function requireConfig() {
 
 async function helpFriends() {
   for (let code of $.newShareCodes) {
+    if(code){
     console.log(`去帮助好友${code}`)
     await helpFriend(code)
     await $.wait(1000)
+    }
   }
 }
 
