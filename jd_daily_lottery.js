@@ -42,6 +42,7 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
+  await requireConfig()
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -63,6 +64,8 @@ if ($.isNode()) {
       await dailyLottery()
     }
   }
+  await shareCodesFormat()
+  await helpFriends()
   for (let i = 0; i < $.helpCodeList.length && cookiesArr.length > 0; i++) {
     if ($.helpCodeList[i].needHelp === 0) {
       continue;
@@ -127,6 +130,59 @@ async function dailyLottery() {
     //执行抽奖
     await lotteryDraw();
     $.drawNumber++;
+  }
+}
+
+//格式化助力码
+function shareCodesFormat() {
+  return new Promise(async resolve => {
+    // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
+    $.newShareCodes = [];
+    if ($.shareCodesArr[$.index - 1]) {
+      $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
+    } else {
+      console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
+      $.newShareCodes = [...($.authorCode.map((item, index) => $.authorCode[index] = item['inviteCode'])), ...$.newShareCodes];
+    }
+    $.newShareCodes.map((item, index) => $.newShareCodes[index] = { "inviteCode": item, "shareDate": $.shareDate })
+    console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
+    resolve();
+  })
+}
+
+
+function requireConfig() {
+  return new Promise(resolve => {
+    console.log(`开始获取${$.name}配置文件\n`);
+    let shareCodes = [];
+    if ($.isNode()) {
+      if (process.env.JD_DAILY_SHARECODES) {
+        if (process.env.JD_DAILY_SHARECODES.indexOf('\n') > -1) {
+          shareCodes = process.env.JD_DAILY_SHARECODES.split('\n');
+        } else {
+          shareCodes = process.env.JD_DAILY_SHARECODES.split('&');
+        }
+      }
+    }
+    console.log(`共${cookiesArr.length}个京东账号\n`);
+    $.shareCodesArr = [];
+    if ($.isNode()) {
+      Object.keys(shareCodes).forEach((item) => {
+        if (shareCodes[item]) {
+          $.shareCodesArr.push(shareCodes[item])
+        }
+      })
+    }
+    console.log(`您提供了${$.shareCodesArr.length}个账号的${$.name}助力码\n`);
+    resolve()
+  })
+}
+
+async function helpFriends() {
+  for (let code of $.newShareCodes) {
+    console.log(`去帮助好友${code}`)
+    await helpFriend(code)
+    await $.wait(1000)
   }
 }
 
