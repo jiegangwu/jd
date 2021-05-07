@@ -203,7 +203,7 @@ async function createInvitation(missionInfo) {
             'helpCpde': data.data,
             'needHelp': missionInfo['totalNum'] - missionInfo['completeNum']
           });
-          console.log(`互助码(内部多账号自己互助)：${data.data}`);
+          console.log(`每日抽奖互助码(内部多账号自己互助)：${data.data}`);
         }
       } catch (e) {
         $.logErr(e, resp)
