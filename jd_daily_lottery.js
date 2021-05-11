@@ -239,6 +239,7 @@ async function doMission() {
     if ($.missionList[i].jumpType === 135) {
       await doOneMission($.missionList[i]);
     } else if ($.missionList[i].jumpType === 1) {
+      console.log(`createInvitation：${$.missionList[i]}`);
       await createInvitation($.missionList[i]);
     }
   }
@@ -261,6 +262,7 @@ async function createInvitation(missionInfo) {
           });
           console.log(`每日抽奖互助码(内部多账号自己互助)：${data.data}`);
         }
+        console.log(`data.success：${data.success}`);
       } catch (e) {
         $.logErr(e, resp)
       } finally {
