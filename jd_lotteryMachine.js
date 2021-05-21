@@ -24,23 +24,23 @@ const collectScoreFunPrefixArr = ['','','','','','','','','','','','','','','','
 $.allShareId = {};
 main();
 async function main() {
-  await help();//先账号内部互助
+// await help();//先账号内部互助
   await updateShareCodes();
   if (!$.body) await updateShareCodesCDN();
   if ($.body) {
     eval($.body);
   }
-  $.http.get({url: `https://purge.jsdelivr.net/gh/yangtingxiao/QuantumultX@master/scripts/jd/jd_lotteryMachine.js`}).then((resp) => {
-    if (resp.statusCode === 200) {
-      let { body } = resp;
-      body = JSON.parse(body);
-      if (body['success']) {
-        console.log(`jd_lotteryMachine.js文件  CDN刷新成功`)
-      } else {
-        console.log(`jd_lotteryMachine.js文件 CDN刷新失败`)
-      }
-    }
-  });
+ // $.http.get({url: `https://purge.jsdelivr.net/gh/yangtingxiao/QuantumultX@master/scripts/jd/jd_lotteryMachine.js`}).then((resp) => {
+ //   if (resp.statusCode === 200) {
+ //     let { body } = resp;
+ //     body = JSON.parse(body);
+ //     if (body['success']) {
+ //       console.log(`jd_lotteryMachine.js文件  CDN刷新成功`)
+ //     } else {
+ //       console.log(`jd_lotteryMachine.js文件 CDN刷新失败`)
+ //     }
+ //   }
+ // });
 }
 function updateShareCodes(url = 'https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_lotteryMachine.js') {
   return new Promise(resolve => {
