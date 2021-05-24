@@ -36,10 +36,7 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-let inviteCodes = [
-  'RtGKi5X8P0rXFvnPT6txmoReYNzv0mAhDoQoWvuQ_TQLZQpw@RtGKzOn1R1imd4aZRdU2hBIBgJ03z2Yq-l50VjzK7d6LW8ENFw@RtGKzuryRFn2LdCbQoJggtEzmhdiJJUKv4qPggRZG_AEBjq-rg@HYbiyeWlRQmkfYP1V5h_msHdhHllBQpLhhZV4Prz1-z-TA',
-  'W9Ggu7nAFE36FNH4coB_muZefrJOOoQ3YkddtGEQ14i71Wc@RtGKzO2nRQ_yeNWTEYVi0zL5ya80x5O2HhNSBCPJUpbOAxnNEw@acO8lrnoDUajMs_WTop3g2W5wGQkrcfYTHg@yTRPHGQUmJgEqA4twVCRARSvFKyhBovMlRPJV2ccy-kksvim7mxvuW4ksCay@X92swe2tSUbvMoPWW5hqiOzqlo_K6RipsNQmYg@RtGKzLnwQg3ye9HJFNRm0bpznSx2vJAuAMEJSOnTgv99a34ctA@RtGKzOSgFAjyfYrJH9Aw1r5TtAQyzehJ7lnGnogvb30OX_Vr7g'
-]
+let inviteCodes = []
 !(async () => {
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
@@ -277,10 +274,6 @@ function shareCodesFormat() {
       console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
       $.newShareCodes = inviteCodes[tempIndex].split('@');
-    }
-    const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
     }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();

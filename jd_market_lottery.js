@@ -91,16 +91,16 @@ async function getInfo(url) {
 
         }else{
           data = $.toObj(data.match(/window.__react_data__ = (\{.*\})/)[1])
-          let taskList = data?.activityData?.floorList?.filter(vo=>vo.template==='score_task')[0]
-          //console.log(data?.activityData?.floorList)
+          let taskList = data.activityData.floorList.filter(vo=>vo.template==='score_task')[0]
+          //console.log(data.activityData.floorList)
           for(let vo of taskList['taskItemList']){
             for(let i = vo.joinTimes; i< vo.taskLimit;++i){
-              console.log(`去完成${vo?.flexibleData?.taskName ?? vo.enAwardK}任务，第${i+1}次`)
+              console.log(`去完成${vo.flexibleData.taskName ? vo.enAwardK:""}任务，第${i+1}次`)
               await doTask(vo.enAwardK)
               await $.wait(500)
             }
           }
-          let lottery = data?.activityData?.floorList?.filter(vo=>vo.template==='choujiang_wheel')[0]
+          let lottery = data.activityData.floorList.filter(vo=>vo.template==='choujiang_wheel')[0]
           //console.log(lottery)
           const {userScore,lotteryScore} = lottery.lotteryGuaGuaLe
           if(lotteryScore<=userScore) {
