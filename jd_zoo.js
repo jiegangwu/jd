@@ -76,7 +76,9 @@ function QueryJDUserInfo(timeout = 0) {
             merge.enabled = false
             return
           }
-          merge.nickname = data.base.nickname;
+           if (data['retcode'] === "0" && data.data && data.data.hasOwnProperty("userInfo")) {
+              merge.nickname = data.data.userInfo.baseInfo.nickname;
+            }
         } catch (e) {
           $.logErr(e, resp);
         } finally {
