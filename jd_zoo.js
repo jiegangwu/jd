@@ -654,10 +654,10 @@ function zoo_getHomeData(inviteId= "",timeout = 0) {
             //console.log('zoo_getHomeData:' + JSON.stringify(data))
             secretp = data.data.result.homeMainInfo.secretp
             await zoo_collectProduceScore();
-            //await zoo_pk_getHomeData('sSKNX-MpqKOJsNu_n5rRBtceMySmt64bYVo2Enx1F9d--p7NICF8sg8yP-il24M')
+            await zoo_pk_getHomeData('sSKNX-MpqKOJsNu_yp7ZBg8J2ZE04rbzkABxuG4bKhvqBLiE-TV2pTd7Yeyg4gY')
             //await zoo_pk_assistGroup()
             if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 1 ) await zoo_raise(1000)
-            //await zoo_getHomeData('ZXTKT0225KkcRxgY_VbTIx-llf8KJwFjRWn6-7zx55awQ');
+            await zoo_getHomeData('ZXTKT0225KkcR00c9VbSdEmnk_dbdgFjRWn6-7zx55awQ');
             //await zoo_getTaskDetail("","app")
             await zoo_getTaskDetail()
           } else {
