@@ -18,6 +18,8 @@ const $ = new Env('动物联萌');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '',secretp = '',shareCodeList = [];
+$.pkShareCodesPk = ['sSKNX-MpqKOJsNu_yp7ZBg8J2ZE04rbzkABxuG4bKhvqBLiE-TV2pTd7Yeyg4gY','sSKNX-MpqKOJsNu-kMrcUg4fN7t1wgIAfL2vwvECUGNCJztRu8Azdn9CVh8XyQ0'];
+$.shareCode = ['ZXTKT0225KkcR00c9VbSdEmnk_dbdgFjRWn6-7zx55awQ','ZXTKT0225KkcRhdI8ALTIx73kPMMJgFjRWn6-7zx55awQ'];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -477,6 +479,7 @@ function zoo_doAdditionalTask(taskBody,timeout = 0){
   })
 }
 
+
 //查询甄选任务
 function zoo_getFeedDetail(taskId,timeout = 0){
   return new Promise((resolve) => {
@@ -654,11 +657,13 @@ function zoo_getHomeData(inviteId= "",timeout = 0) {
             //console.log('zoo_getHomeData:' + JSON.stringify(data))
             secretp = data.data.result.homeMainInfo.secretp
             await zoo_collectProduceScore();
-            await zoo_pk_getHomeData('sSKNX-MpqKOJsNu_yp7ZBg8J2ZE04rbzkABxuG4bKhvqBLiE-TV2pTd7Yeyg4gY')
+            //await zoo_pk_getHomeData('sSKNX-MpqKOJsNu_yp7ZBg8J2ZE04rbzkABxuG4bKhvqBLiE-TV2pTd7Yeyg4gY')
             //await zoo_pk_assistGroup()
+            await helpFriendsPK();
             if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 1 ) await zoo_raise(1000)
-            await zoo_getHomeData('ZXTKT0225KkcR00c9VbSdEmnk_dbdgFjRWn6-7zx55awQ');
+            //await zoo_getHomeData('ZXTKT0225KkcR00c9VbSdEmnk_dbdgFjRWn6-7zx55awQ');
             //await zoo_getTaskDetail("","app")
+            await helpFriends();
             await zoo_getTaskDetail()
           } else {
             return
@@ -673,6 +678,23 @@ function zoo_getHomeData(inviteId= "",timeout = 0) {
   })
 }
 
+async function helpFriends() {
+  for (let code of $.shareCode) {
+    if (!code) continue
+     await zoo_getHomeData(code)
+    await $.wait(1000)
+  }
+}
+
+
+async function helpFriendsPK() {
+  for (let code of $.pkShareCodesPk) {
+    if (!code) continue
+    console.log(`去助力PK好友${code}`)
+    await zoo_pk_getHomeData(code)
+    await $.wait(1000)
+  }
+}
 
 //助力
 function collectFriendRecordColor(timeout = 0) {
