@@ -72,9 +72,12 @@ let inviteCodes = []
         console.log(`开始助力 【${$.newShareCodes[i]}】`)
         let res = await getInfo($.newShareCodes[i])
         if (res && res['data']['bizCode'] === 0) {
-          if (res['data']['result']['toasts'] && res['data']['result']['toasts'][0]['status'] === '3') {
+          if (res['data']['result']['toasts'] && res['data']['result']['toasts'][0] && res['data']['result']['toasts'][0]['status'] === '3') {
             console.log(`助力次数已耗尽，跳出`)
             break
+          }
+          if (res['data']['result']['toasts'] && res['data']['result']['toasts'][0]) {
+            console.log(`助力 【${$.newShareCodes[i]}】:${res.data.result.toasts[0].msg}`)
           }
         }
         if ((res && res['status'] && res['status'] === '3') || (res && res.data && res.data.bizCode === -11)) {
@@ -92,15 +95,15 @@ let inviteCodes = []
           }
         }
       } else {
-        if (new Date().getDate() >= 24) {
-          const res = await city_lotteryAward();//抽奖
-          if (res && res > 0) {
-            for (let i = 0; i < new Array(res).fill('').length; i++) {
-              await $.wait(1000)
-              await city_lotteryAward();//抽奖
-            }
-          }
-        }
+        // if (new Date().getDate() >= 24) {
+        //   const res = await city_lotteryAward();//抽奖
+        //   if (res && res > 0) {
+        //     for (let i = 0; i < new Array(res).fill('').length; i++) {
+        //       await $.wait(1000)
+        //       await city_lotteryAward();//抽奖
+        //     }
+        //   }
+        // }
       }
       await $.wait(1000)
     }
@@ -138,16 +141,16 @@ function getInfo(inviteId, flag = false) {
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
           if (safeGet(data)) {
-            if (inviteId) $.log(`助力结果:\n${data}\n`)
+            // if (inviteId) $.log(`\n助力结果:\n${data}\n`)
             data = JSON.parse(data);
             if (data.data && !data.data.result.userActBaseInfo.inviteId) {
               console.log(`账号已黑，看不到邀请码`);
             } else {
-              if (flag) console.log(`\n\n\n好友助力码：${data.data && data.data.result.userActBaseInfo.inviteId}\n\n\n`)
+              if (flag) console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.data && data.data.result.userActBaseInfo.inviteId}\n`);
             }
             if (data.data && data['data']['bizCode'] === 0) {
               for(let vo of data.data.result && data.data.result.mainInfos || []){
-                if (vo.remaingAssistNum === 0 && vo.status === "1") {
+                if (vo && vo.remaingAssistNum === 0 && vo.status === "1") {
                   console.log(vo.roundNum)
                   await receiveCash(vo.roundNum)
                   await $.wait(2*1000)
@@ -240,7 +243,7 @@ function city_lotteryAward() {
 function readShareCode() {
   console.log(`开始`)
   return new Promise(async resolve => {
-    $.get({url: `http://jd.turinglabs.net/api/v2/jd/city/read/10/`, 'timeout': 10000}, (err, resp, data) => {
+    $.get({url: `http://share.turinglabs.net/api/v3/city/query/10/`, 'timeout': 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -272,10 +275,6 @@ function shareCodesFormat() {
       const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
       $.newShareCodes = inviteCodes[tempIndex].split('@');
     }
-    // const readShareCodeRes = await readShareCode();
-    // if (readShareCodeRes && readShareCodeRes.code === 200) {
-    //   $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
-    // }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
