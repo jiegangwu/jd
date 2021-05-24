@@ -652,10 +652,10 @@ function zoo_getHomeData(inviteId= "",timeout = 0) {
             //console.log('zoo_getHomeData:' + JSON.stringify(data))
             secretp = data.data.result.homeMainInfo.secretp
             await zoo_collectProduceScore();
-            await zoo_pk_getHomeData('sSKNX-MpqKOJsNu_n5rRBtceMySmt64bYVo2Enx1F9d--p7NICF8sg8yP-il24M')
+            //await zoo_pk_getHomeData('sSKNX-MpqKOJsNu_n5rRBtceMySmt64bYVo2Enx1F9d--p7NICF8sg8yP-il24M')
             //await zoo_pk_assistGroup()
             if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 1 ) await zoo_raise(1000)
-            await zoo_getHomeData('ZXTKT0225KkcRxgY_VbTIx-llf8KJwFjRWn6-7zx55awQ');
+            //await zoo_getHomeData('ZXTKT0225KkcRxgY_VbTIx-llf8KJwFjRWn6-7zx55awQ');
             //await zoo_getTaskDetail("","app")
             await zoo_getTaskDetail()
           } else {
@@ -823,16 +823,15 @@ function zoo_pk_getHomeData(body = "",timeout = 0) {
       }
       $.post(url, async (err, resp, data) => {
         try {
-          if (body !== "") {
-            await $.getScript("https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/memo/jd_zooShareCode.txt").then((text) => (shareCodeList = text.split('\n')))
-            for (let i in shareCodeList) {
-              if (shareCodeList[i]) await zoo_pk_assistGroup(shareCodeList[i]);
-            }
-            //await zoo_pk_assistGroup(body);
-          } else {
+        //  if (body !== "") {
+        //    await $.getScript("https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/memo/jd_zooShareCode.txt").then((text) => (shareCodeList = text.split('\n')))
+       //     for (let i in shareCodeList) {
+       //       if (shareCodeList[i]) await zoo_pk_assistGroup(shareCodeList[i]);
+       //     }
+      //    } else {
           data = JSON.parse(data);
           console.log('您的商圈助力码：' + data.data.result.groupInfo.groupAssistInviteId)
-          }
+      //    }
         } catch (e) {
           $.logErr(e, resp);
         } finally {
