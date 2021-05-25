@@ -75,6 +75,7 @@ if ($.isNode()) {
   for (let i = 0; i < cookiesArr.length; i++) {
     $.cookie = cookiesArr[i];
     $.canHelp = true;
+    $.max = false;
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
     if (!$.secretpInfo[$.UserName]) {
       continue;
@@ -223,8 +224,10 @@ async function zoo() {
   //助力
    for (let i = 0; i < $.inviteList.length; i++) {
        $.inviteId = $.inviteList[i];
+       if(!max){
        await takePostRequest('help');
        await $.wait(2000);
+       }
    }
   //======================================================怪兽大作战==============================================================================================================
   $.pkHomeData = {};
@@ -418,7 +421,7 @@ async function dealReturn(type, data) {
       if (data.data.bizCode === 0) console.log(`助力成功`);
       if (data.data.bizCode === -201) {
         console.log(`助力已满`);
-        $.oneInviteInfo.max = true;
+        $.max = true;
       }
       if (data.data.bizCode === -202) console.log(`已助力`);
       if (data.data.bizCode === -8) console.log(`已经助力过该队伍`);
