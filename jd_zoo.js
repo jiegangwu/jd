@@ -38,6 +38,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
   await requireConfig();
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
+    $.index = i + 1;
     if (cookie) {
       if (i) console.log(`\n***************开始京东账号${i + 1}***************`)
       initial();
