@@ -18,7 +18,7 @@ const $ = new Env('动物联萌');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '',secretp = '',shareCodeList = [];
-$.pkShareCodesPk = ['sSKNX-MpqKOJsNu_yp7ZBg8J2ZE04rbzkABxuG4bKhvqBLiE-TV2pTd7Yeyg4gc'];
+$.pkShareCodesPk = ['sSKNX-MpqKOJsNu_yp7ZBg8J2ZE04rbzkABxuG4bKhvqBLiE-TV2pTd7Yeyg4gc','sSKNX-MpqKOJsNu-kMrcUg4fN7t1wgIAfL2vwvECUGNCJztRu8Azdn9CVh8XyQw',];
 $.shareCode = ['ZXTKT0225KkcR00c9VbSdEmnk_dbdgFjRWn6-7zx55awQ','ZXTKT0225KkcRhdI8ALTIx73kPMMJgFjRWn6-7zx55awQ','ZXTKT0225KkcRk0d9V2BcUuilqICJQFjRWn6-7zx55awQ','ZXTKT018v_VxQBwQ81zXKR2b1AFjRWn6-7zx55awQ','ZXTKT0225KkcRkgb_F3ScR-gwKUPcwFjRWn6-7zx55awQ','ZXTKT0157aVwQx8Q9FPRKRgFjRWn6-7zx55awQ'];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -35,7 +35,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
     $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
   }
-
+  await requireConfig();
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
@@ -48,6 +48,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
         $.msg($.name, `【提示】京东账号${i ? i + 1 : "" } cookie已过期！请先获取cookie\n直接使用NobyDa的京东签到获取`, 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
         continue;
       }
+      await shareCodesFormat();
       console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
       await zoo_pk_getHomeData();
       await zoo_getHomeData();
@@ -189,6 +190,48 @@ function zoo_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
         }
       })
     },timeout)
+  })
+}
+
+//格式化助力码
+function shareCodesFormat() {
+  return new Promise(async resolve => {
+    // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
+    $.pkShareCodes = [];
+    if ($.shareCodesArr[$.index - 1]) {
+      $.pkShareCodes = $.shareCodesArr[$.index - 1].split('@');
+    } else {
+      console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
+    }
+    // console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.pkShareCodes)}`)
+    resolve();
+  })
+}
+
+function requireConfig() {
+  return new Promise(resolve => {
+    console.log(`开始获取${$.name}配置文件\n`);
+    let shareCodes = [];
+    if ($.isNode()) {
+      if (process.env.JDZOO_PK_CODES) {
+        if (process.env.JDZOO_PK_CODES.indexOf('\n') > -1) {
+          shareCodes = process.env.JDZOO_PK_CODES.split('\n');
+        } else {
+          shareCodes = process.env.JDZOO_PK_CODES.split('&');
+        }
+      }
+    }
+    console.log(`共${cookiesArr.length}个京东账号\n`);
+    $.shareCodesArr = [];
+    if ($.isNode()) {
+      Object.keys(shareCodes).forEach((item) => {
+        if (shareCodes[item]) {
+          $.shareCodesArr.push(shareCodes[item])
+        }
+      })
+    }
+    console.log(`您提供了${$.shareCodesArr.length}个账号的${$.name}助力码\n`);
+    resolve()
   })
 }
 
@@ -688,7 +731,7 @@ async function helpFriends() {
 
 
 async function helpFriendsPK() {
-  for (let code of $.pkShareCodesPk) {
+  for (let code of $.pkShareCodes) {
     if (!code) continue
     console.log(`去助力PK好友${code}`)
     await zoo_pk_assistGroup(code);
