@@ -691,7 +691,7 @@ async function helpFriendsPK() {
   for (let code of $.pkShareCodesPk) {
     if (!code) continue
     console.log(`去助力PK好友${code}`)
-    await zoo_pk_getHomeData(code)
+    await zoo_pk_assistGroup(code);
     await $.wait(1000)
   }
 }
