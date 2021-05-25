@@ -18,7 +18,7 @@ const $ = new Env('动物联萌');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '',secretp = '',shareCodeList = [];
-$.pkShareCodesPk = ['sSKNX-MpqKOJsNu_yp7ZBg8J2ZE04rbzkABxuG4bKhvqBLiE-TV2pTd7Yeyg4gY','sSKNX-MpqKOJsNu-kMrcUg4fN7t1wgIAfL2vwvECUGNCJztRu8Azdn9CVh8XyQ0','sSKNX-MpqKOJsNu-yp_ZDcG0YsKRcwV2cyQgILXqoffboAP3MVEwUyrhDLXq7xU','sSKNX-MpqKPS7La4m5LfDLuDti_kgRX5a7cR2KrB2Pf8rjzPSLWoO8w','sSKNX-MpqKOJsNu-z5nQDSyOsWNkRhLGTy54DP2_-nv8ZswRjUHJZ26EIfODZGQ','sSKNX-MpqKOAvLe7mJLYAznYCUU5VEVoAaxfiMJ9lqknBY41lw'];
+$.pkShareCodesPk = ['sSKNX-MpqKOJsNu_yp7ZBg8J2ZE04rbzkABxuG4bKhvqBLiE-TV2pTd7Yeyg4gc'];
 $.shareCode = ['ZXTKT0225KkcR00c9VbSdEmnk_dbdgFjRWn6-7zx55awQ','ZXTKT0225KkcRhdI8ALTIx73kPMMJgFjRWn6-7zx55awQ','ZXTKT0225KkcRk0d9V2BcUuilqICJQFjRWn6-7zx55awQ','ZXTKT018v_VxQBwQ81zXKR2b1AFjRWn6-7zx55awQ','ZXTKT0225KkcRkgb_F3ScR-gwKUPcwFjRWn6-7zx55awQ','ZXTKT0157aVwQx8Q9FPRKRgFjRWn6-7zx55awQ'];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
