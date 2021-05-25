@@ -224,7 +224,7 @@ async function zoo() {
   //助力
    for (let i = 0; i < $.inviteList.length; i++) {
        $.inviteId = $.inviteList[i];
-       if(!max){
+       if(!$.max){
        await takePostRequest('help');
        await $.wait(2000);
        }
