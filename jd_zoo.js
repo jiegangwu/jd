@@ -647,6 +647,7 @@ function zoo_pk_assistGroup(inviteId = "",timeout = 0) {
         try {
           //console.log('商圈助力：' + data)
           data = JSON.parse(data);
+          console.log('商圈助力：' + data)
         } catch (e) {
           $.logErr(e, resp);
         } finally {
