@@ -30,11 +30,11 @@ const $ = new Env('618动物联萌');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const pKHelpFlag = true;//是否PK助力  true 助力，false 不助力
-const pKHelpAuthorFlag = true;//是否助力作者PK  true 助力，false 不助力
+const pKHelpAuthorFlag = false;//是否助力作者PK  true 助力，false 不助力
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [];
 $.cookie = '';
-$.inviteList = [];
+$.inviteList = ['ZXTKT0225KkcR00c9VbSdEmnk_dbdgFjRWn6-7zx55awQ','ZXTKT0225KkcRhdI8ALTIx73kPMMJgFjRWn6-7zx55awQ','ZXTKT0225KkcRk0d9V2BcUuilqICJQFjRWn6-7zx55awQ','ZXTKT018v_VxQBwQ81zXKR2b1AFjRWn6-7zx55awQ','ZXTKT0225KkcRkgb_F3ScR-gwKUPcwFjRWn6-7zx55awQ','ZXTKT0157aVwQx8Q9FPRKRgFjRWn6-7zx55awQ'];
 $.pkInviteList = [];
 $.secretpInfo = {};
 $.innerPkInviteList = [
@@ -68,6 +68,9 @@ if ($.isNode()) {
       '金融APP任务：已完成\n' +
       '活动时间：2021-05-24至2021-06-20\n' +
       '脚本更新时间：2021-05-26 20:50');
+  await requireConfig();
+    $.canHelp = true;
+    $.max = false;
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       $.cookie = cookiesArr[i];
@@ -88,15 +91,15 @@ if ($.isNode()) {
       await zoo()
     }
   }
-  let res = [];
-  if (new Date().getUTCHours() + 8 >= 17) res = await getAuthorShareCode() || [];
-  if (pKHelpAuthorFlag) {
-    $.innerPkInviteList = getRandomArrayElements([...$.innerPkInviteList, ...res], [...$.innerPkInviteList, ...res].length);
+   /*if(pKHelpAuthorFlag){
+    $.innerPkInviteList = $.innerPkInviteList.sort(()=>Math.random() - 0.5);
     $.pkInviteList.push(...$.innerPkInviteList);
   }
+ 
   for (let i = 0; i < cookiesArr.length; i++) {
     $.cookie = cookiesArr[i];
     $.canHelp = true;
+    $.max = false;
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
     if (!$.secretpInfo[$.UserName]) {
       continue;
@@ -127,7 +130,7 @@ if ($.isNode()) {
       await takePostRequest('help');
       await $.wait(2000);
     }
-  }
+  }*/
 })()
   .catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
@@ -136,8 +139,50 @@ if ($.isNode()) {
     $.done();
   })
 
+//格式化助力码
+function shareCodesFormat() {
+  return new Promise(async resolve => {
+    // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
+    if ($.shareCodesArr[$.index - 1]) {
+      $.pkInviteList = $.shareCodesArr[$.index - 1].split('@');
+    } else {
+      console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
+    }
+    // console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.pkInviteList)}`)
+    resolve();
+  })
+}
+
+function requireConfig() {
+  return new Promise(resolve => {
+    console.log(`开始获取${$.name}配置文件\n`);
+    let shareCodes = [];
+    if ($.isNode()) {
+      if (process.env.JDZOO_PK_CODES) {
+        if (process.env.JDZOO_PK_CODES.indexOf('\n') > -1) {
+          shareCodes = process.env.JDZOO_PK_CODES.split('\n');
+        } else {
+          shareCodes = process.env.JDZOO_PK_CODES.split('&');
+        }
+      }
+    }
+    console.log(`共${cookiesArr.length}个京东账号\n`);
+    $.shareCodesArr = [];
+    if ($.isNode()) {
+      Object.keys(shareCodes).forEach((item) => {
+        if (shareCodes[item]) {
+          $.shareCodesArr.push(shareCodes[item])
+        }
+      })
+    }
+    console.log(`您提供了${$.shareCodesArr.length}个账号的${$.name}助力码\n`);
+    resolve()
+  })
+}
+
 async function zoo() {
   try {
+    await shareCodesFormat();
     $.signSingle = {};
     $.homeData = {};
     $.secretp = ``;
@@ -341,7 +386,15 @@ async function zoo() {
         console.log(`任务：${$.jdjrTaskList[i].name},已完成`);
       }
     }
-    //======================================================怪兽大作战=================================================================================
+    //助力
+     for (let i = 0; i < $.inviteList.length; i++) {
+         $.inviteId = $.inviteList[i];
+         if(!$.max){
+         await takePostRequest('help');
+         await $.wait(2000);
+         }
+     }
+    //======================================================怪兽大作战==============================================================================================================
     $.pkHomeData = {};
     await takePostRequest('zoo_pk_getHomeData');
     if (JSON.stringify($.pkHomeData) === '{}') {
@@ -382,6 +435,17 @@ async function zoo() {
           await $.wait(2000);
         }
       }
+    }
+     //pk助力
+    if (new Date().getUTCHours() + 8 >= 9) {
+     console.log(`\n******开始pk助力*********\n`);
+     for (let i = 0; i < $.pkInviteList.length; i++) {
+       if($.canHelp){
+         console.log(`${$.UserName} 去助力PK码 ${$.pkInviteList[i]}`);
+         $.pkInviteId = $.pkInviteList[i];
+         await takePostRequest('pkHelp');
+       }
+     }
     }
   } catch (e) {
     $.logErr(e)
@@ -579,7 +643,7 @@ async function dealReturn(type, data) {
           break;
         case -201:
           console.log(`助力已满`);
-          $.oneInviteInfo.max = true;
+          $.max = true;
           break;
         case -202:
           console.log(`已助力`);
@@ -841,26 +905,6 @@ function getRandomArrayElements(arr, count) {
     shuffled[i] = temp;
   }
   return shuffled.slice(min);
-}
-function getAuthorShareCode(url = "http://cdn.annnibb.me/eb6fdc36b281b7d5eabf33396c2683a2.json") {
-  return new Promise(async resolve => {
-    $.get({url,headers:{
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-      }, "timeout": 10000}, async (err, resp, data) => {
-      try {
-        if (err) {
-        } else {
-          if (data) data = JSON.parse(data)
-        }
-      } catch (e) {
-        // $.logErr(e, resp)
-      } finally {
-        resolve(data || []);
-      }
-    })
-    await $.wait(10000)
-    resolve();
-  })
 }
 
 function TotalBean() {
