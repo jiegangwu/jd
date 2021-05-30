@@ -24,24 +24,42 @@ const collectScoreFunPrefixArr = ['','','','','','','','','','','','','','','','
 $.allShareId = {};
 main();
 async function main() {
-  await help();//先账号内部互助
+// await help();//先账号内部互助
   await updateShareCodes();
   if (!$.body) await updateShareCodesCDN();
   if ($.body) {
     eval($.body);
   }
-  $.http.get({url: `https://purge.jsdelivr.net/gh/yangtingxiao/QuantumultX@master/scripts/jd/jd_lotteryMachine.js`}).then((resp) => {
-    if (resp.statusCode === 200) {
-      let { body } = resp;
-      body = JSON.parse(body);
-      if (body['success']) {
-        console.log(`jd_lotteryMachine.js文件  CDN刷新成功`)
-      } else {
-        console.log(`jd_lotteryMachine.js文件 CDN刷新失败`)
-      }
-    }
-  }).catch((err) => console.log(`更新jd_lotteryMachine.js文件 CDN异常`, err));
+ // $.http.get({url: `https://purge.jsdelivr.net/gh/yangtingxiao/QuantumultX@master/scripts/jd/jd_lotteryMachine.js`}).then((resp) => {
+ //   if (resp.statusCode === 200) {
+ //     let { body } = resp;
+ //     body = JSON.parse(body);
+ //     if (body['success']) {
+ //       console.log(`jd_lotteryMachine.js文件  CDN刷新成功`)
+ //     } else {
+ //       console.log(`jd_lotteryMachine.js文件 CDN刷新失败`)
+ //     }
+ //   }
+ // });
 }
+function updateShareCodes(url = 'https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_lotteryMachine.js') {
+  return new Promise(resolve => {
+    $.get({url, timeout: 10000}, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+        } else {
+          $.body = data.replace(/const shareCodeArr.+/,"const shareCodeArr = ['T0225KkcR00c9VbSdEmnk_dbdgCjVUloaW5kRrbA','T0225KkcRhdI8ALTIx73kPMMJgCjVVl4aW5kRrbA','T0225KkcRk0d9V2BcUuilqICJQCjVVl4aW5kRrbA','T018v_VxQBwQ81zXKR2b1ACjVVl4aW5kRrbA','T0225KkcRkgb_F3ScR-gwKUPcwCjVVl4aW5kRrbA']");//.replace("\/\/console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)","console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)");
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve();
+      }
+    })
+  })
+}
+
 async function help() {
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
