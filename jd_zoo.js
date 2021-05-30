@@ -9,7 +9,7 @@ PK互助：内部账号自行互助(排名靠前账号得到的机会多),多余
 地图任务：已添加，下午2点到5点执行,抽奖已添加(基本都是优惠券)
 金融APP任务：已完成
 活动时间：2021-05-24至2021-06-20
-脚本更新时间：2021-05-28 9:20
+脚本更新时间：2021-05-30 21:25
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ===================quantumultx================
 [task_local]
@@ -38,13 +38,7 @@ $.inviteList = ['ZXTKT0225KkcR00c9VbSdEmnk_dbdgFjRWn6-7zx55awQ','ZXTKT0225KkcRhd
 $.pkInviteList = [];
 $.secretpInfo = {};
 $.innerPkInviteList = [
-  'sSKNX-MpqKOJsNu8mJ7RA9BJMup4tAAmPcPPPhBUWYKUJ19UKeC8EAoKeUXELiQ',
-  'sSKNX-MpqKOJsNu-ys_QB8uQqFkCdEeVDMGDHRryF8QHDHxAgiHVjUPNuVNIzLc',
-  'sSKNX-MpqKMLdi9uIzMMu0DX2-jTz_DN5BqTx0HCuqsE9Vbm3Suv-7CbY91siKVHgbu1vfsBbQ',
-  'sSKNX-MpqKOJsNv74MOnRO1-y24JzNJfEGle1Ooa7gtNStMf5n0b6pOxJ2-I',
-  'sSKNX-MpqKOJsNu-n83cV-ztwhdGVt6kY02nHU7jkp0qAsASu9tIW4Ny-i1OMVA',
 ];
-$.hotFlag = false; //是否火爆
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -68,7 +62,7 @@ if ($.isNode()) {
       '地图任务：已添加，下午2点到5点执行,抽奖已添加\n' +
       '金融APP任务：已完成\n' +
       '活动时间：2021-05-24至2021-06-20\n' +
-      '脚本更新时间：2021-05-28 9:20\n' +
+      '脚本更新时间：2021-05-30 21:25\n' +
       '火爆账户暂时不做任务，找到解决办法后再做任务'
       );
   await requireConfig();
@@ -81,6 +75,7 @@ if ($.isNode()) {
       $.index = i + 1;
       $.isLogin = true;
       $.nickName = $.UserName;
+      $.hotFlag = false; //是否火爆
       await TotalBean();
       console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
       console.log(`\n如有未完成的任务，请多执行几次\n`);
@@ -91,7 +86,8 @@ if ($.isNode()) {
         }
         continue
       }
-      await zoo()
+      await zoo();
+      if($.hotFlag)$.secretpInfo[$.UserName] = false;//火爆账号不执行助力
     }
   }
    /*if(pKHelpAuthorFlag){
@@ -117,6 +113,7 @@ if ($.isNode()) {
         console.log(`${$.UserName} 去助力PK码 ${$.pkInviteList[i]}`);
         $.pkInviteId = $.pkInviteList[i];
         await takePostRequest('pkHelp');
+        await $.wait(2000);
       }
       $.canHelp = true;
     }
@@ -250,7 +247,6 @@ async function zoo() {
             await $.wait(3000);
           }
         }
-        await takePostRequest('zoo_getHomeData');
       }else if ($.oneTask.taskType === 2 && $.oneTask.status === 1){
         console.log(`做任务：${$.oneTask.taskName};等待完成 (实际不会添加到购物车)`);
         $.taskId = $.oneTask.taskId;
@@ -268,14 +264,15 @@ async function zoo() {
           await $.wait(1500);
           needTime --;
         }
-        await takePostRequest('zoo_getHomeData');
       }
-      let raiseInfo = $.homeData.result.homeMainInfo.raiseInfo;
-      if (Number(raiseInfo.totalScore) > Number(raiseInfo.nextLevelScore) && raiseInfo.buttonStatus === 1) {
-        console.log(`满足升级条件，去升级`);
-        await $.wait(1000);
-        await takePostRequest('zoo_raise');
-      }
+    }
+    await $.wait(1000);
+    await takePostRequest('zoo_getHomeData');
+    raiseInfo = $.homeData.result.homeMainInfo.raiseInfo;
+    if (Number(raiseInfo.totalScore) > Number(raiseInfo.nextLevelScore) && raiseInfo.buttonStatus === 1) {
+      console.log(`满足升级条件，去升级`);
+      await $.wait(1000);
+      await takePostRequest('zoo_raise');
     }
     //===================================图鉴里的店铺====================================================================
     if (new Date().getUTCHours() + 8 >= 17 && new Date().getUTCHours() + 8 <= 18 && !$.hotFlag) {//分享
@@ -625,6 +622,7 @@ async function dealReturn(type, data) {
       }
       if(data.code === 0 && data.data && data.data.bizCode === -1002){
         $.hotFlag = true;
+        console.log(`该账户脚本执行任务火爆，暂停执行任务，请手动做任务或者等待解决脚本火爆问题`)
       }
       break;
     case 'zoo_getTaskDetail':
