@@ -499,14 +499,14 @@ async function mr() {
           }
           break
         case "to_exchange":
-          if (vo?.data) {
-            console.log(`兑换${vo?.data?.coins/-100}京豆成功;${JSON.stringify(vo)}`)
+          if (vo.data) {
+            console.log(`兑换${vo.data.coins/-100}京豆成功;${JSON.stringify(vo)}`)
           } else {
             console.log(`兑换京豆失败：${JSON.stringify(vo)}`)
           }
           break
         case "get_produce_material":
-          console.log('get_produce_material', vo?.msg);
+          console.log('get_produce_material', vo.msg);
           $.material = vo.data
           break
         case "to_employee":
